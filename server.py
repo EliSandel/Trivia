@@ -45,46 +45,50 @@ def main():
     
     #the sockets will ryn until the while is closed
     while True:
-        question = getQuestions()
-        answers = getAnswers()
-        
-        #sending to clients the question
-        client_socket1.send(str(question).encode())
-        client_socket2.send(str(question).encode())
-        
-        #sending to clients the answers
-        client_socket1.send(str(answers).encode())
-        client_socket2.send(str(answers).encode())
-        
-        #getting the chossen answers from clients
-        client1_ans = client_socket1.recv(1024)
-        client2_ans = client_socket2.recv(1024)
-        
-        #checking who is coorect and updates the correct counter
-        if checkAnswers(client1_ans,client2_ans) == 1:
-            client1_counter = client1_counter + 1
-        else:
-            client2_counter = client2_counter + 1
-            
-        #sending the counters to the clients
-        client_socket1.send("counters".encode() + str(client1_counter).encode() +str(client2_counter).encode())    
-        client_socket2.send("counters".encode() + str(client1_counter).encode() +str(client2_counter).encode())    
-        
-        #checking if need to exit game
+         #checking if need to exit game
         check1 = client_socket1.recv(1024)
         check2 = client_socket2.recv(1024)
         check_to_exit = checkToExit(check1.decode(),check2.decode())
-        if check_to_exit[16:] == "close connection":
-            if check_to_exit[:7] == "client1":
-                client_socket1.send("the game was closed by you:".encode())
-                client_socket2.send("the game was closed by client1".encode())
+        if check_to_exit[:16] == "close connection":
+            if check_to_exit[-7:] == "client1":
+                client_socket1.send("closing: the game was closed by you:".encode())
+                client_socket2.send("closing: the game was closed by client1".encode())
+                break
             else:
-                client_socket1.send("the game was closed by client2".encode())
-                client_socket2.send("the game was closed by you:".encode())
-        print("closing connections:")
-        client_socket1.close()
-        client_socket2.close()
+                client_socket1.send("closing: the game was closed by client2".encode())
+                client_socket2.send("closing: the game was closed by you:".encode())
+                break
+        else:
+            question = getQuestions()
+            answers = getAnswers()
+            #sending to clients the question
+            client_socket1.send("question".encode() + str(question).encode())
+            client_socket2.send("question".encode() + str(question).encode())
+            
+            #sending to clients the answers
+            client_socket1.send("answers".encode() + str(answers).encode())
+            client_socket2.send("answers".encode() + str(answers).encode())
+            
+            #getting the chossen answers from clients
+            client1_ans = client_socket1.recv(1024)
+            client2_ans = client_socket2.recv(1024)
+            
+            #checking who is coorect and updates the correct counter
+            if checkAnswers(client1_ans,client2_ans) == 1:
+                client1_counter = client1_counter + 1
+            else:
+                client2_counter = client2_counter + 1
+                
+            #sending the counters to the clients
+            client_socket1.send("counters".encode() + "client1 counter".encode() + str(client1_counter).encode() + "client2 counter".encode() + str(client2_counter).encode())    
+            client_socket2.send("counters".encode() + "client1 counter".encode() + str(client1_counter).encode() + "client2 counter".encode() + str(client2_counter).encode())    
+            
+       
         
+    print("closing connections:")    
+    client_socket1.close()
+    client_socket2.close()
+            
         
         
     
