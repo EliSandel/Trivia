@@ -1,11 +1,11 @@
 import socket
+import graphics
+import tkinter as tk
 
+root = tk.Tk()
 my_counter = 0
 rival_counter = 0
 
-def theAnswers():
-    
-    return
 
 
 
@@ -24,7 +24,7 @@ def main():
     #open socket with server
     my_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     my_socket.connect(("127.0.0.1",8822))
-    
+    print("connected")
     while True:
          if exit == True:
             my_socket.send("exit".encode())
@@ -34,11 +34,13 @@ def main():
             
             #checking what the server sent
             if server_sent[:4] == "data":
-              ##########theQuestions(server_sent)#######################
+                server_sent = server_sent[4:]
+                game_graphics = graphics.GameGraphics(root = root,all_questions = eval(server_sent))
+                root.mainloop()
             else:
                 print("404 not found")
-                
-           ###### my_socket.send(client1.sendscore.encode())############
+            print(str(game_graphics.score) + "oooooooooooooooo")
+            my_socket.send(str(game_graphics.score).encode())
                 
             server_sent = my_socket.recv(1024).decode()
             if server_sent[:8] == "counters":
@@ -48,3 +50,4 @@ def main():
     
     print("client1 closed")
     my_socket.close()    
+main()

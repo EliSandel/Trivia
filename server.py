@@ -24,7 +24,7 @@ def main():
     (client_socket1,client_address1) = server_socket1.accept()
     print("client1 connected")
     
-    #open socket2
+    open socket2
     server_socket2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket2.bind(("0.0.0.0",8833))
     server_socket2.listen()
@@ -54,11 +54,12 @@ def main():
             client_socket2.send("data".encode() + str(data).encode())
             
             #getting the chossen score from clients
-            client1_ans = client_socket1.recv(1024)
-            client2_ans = client_socket2.recv(1024)
+            client1_score = client_socket1.recv(1024).decode()
+            client2_score = client_socket2.recv(1024).decode()
             
-            client1_counter = client1_counter + client1_ans
-            client2_counter = client2_counter + client2_ans
+            print(client1_score + "gfcvgbhnjkhgfd")
+            client1_counter = int(client1_score)
+            client2_counter = int(client2_score)
                 
             #sending the counters to the clients
             client_socket1.send("counters".encode() + "client1 counter".encode() + str(client1_counter).encode() + "client2 counter".encode() + str(client2_counter).encode())    
@@ -68,6 +69,8 @@ def main():
     print("closing connections:")    
     client_socket1.close()
     client_socket2.close()
+    
+main()
             
         
         

@@ -43,7 +43,3 @@ class TriviaApi:
                 }
             )
         return self.all_questions
-  
-    
-triviaapi = TriviaApi()
-print(triviaapi.get_trivia_questions(amount=2))
