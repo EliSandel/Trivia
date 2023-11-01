@@ -43,4 +43,5 @@ class TriviaApi:
                 }
             )
         return self.all_questions
+  
     

@@ -1,29 +1,18 @@
 import socket
+import question_data
 
 client1_counter = 0
 client2_counter = 0
+api_class = question_data.TriviaApi()  
 
-def getQuestions():
-    #getting question from api class
-    
-    return
-    
-def getAnswers():
-    #getting the answers from api class
-    
-    return
 
-def checkAnswers(client1_ans,client2_ans):
-    #checking the correct answer and returns 1 or 2 according to the the correct client
-    
-    return
+
 
 def checkToExit(check1,check2):
     if check1 == "exit" or check1 == "Exit" or check1 == "EXIT":
         return "close connection from client1"
     elif check2 == "exit" or check2 == "Exit" or check2 == "EXIT":
         return "close connection from client2"
-
 
 
 def main():
@@ -43,6 +32,7 @@ def main():
     (client_socket2,client_address2) = server_socket2.accept()
     print("client2 connected")
     
+    data = api_class.get_trivia_questions(amount=2)
     #the sockets will ryn until the while is closed
     while True:
          #checking if need to exit game
@@ -59,31 +49,21 @@ def main():
                 client_socket2.send("closing: the game was closed by you:".encode())
                 break
         else:
-            question = getQuestions()
-            answers = getAnswers()
             #sending to clients the question
-            client_socket1.send("question".encode() + str(question).encode())
-            client_socket2.send("question".encode() + str(question).encode())
+            client_socket1.send("data".encode() + str(data).encode())
+            client_socket2.send("data".encode() + str(data).encode())
             
-            #sending to clients the answers
-            client_socket1.send("answers".encode() + str(answers).encode())
-            client_socket2.send("answers".encode() + str(answers).encode())
-            
-            #getting the chossen answers from clients
+            #getting the chossen score from clients
             client1_ans = client_socket1.recv(1024)
             client2_ans = client_socket2.recv(1024)
             
-            #checking who is coorect and updates the correct counter
-            if checkAnswers(client1_ans,client2_ans) == 1:
-                client1_counter = client1_counter + 1
-            else:
-                client2_counter = client2_counter + 1
+            client1_counter = client1_counter + client1_ans
+            client2_counter = client2_counter + client2_ans
                 
             #sending the counters to the clients
             client_socket1.send("counters".encode() + "client1 counter".encode() + str(client1_counter).encode() + "client2 counter".encode() + str(client2_counter).encode())    
             client_socket2.send("counters".encode() + "client1 counter".encode() + str(client1_counter).encode() + "client2 counter".encode() + str(client2_counter).encode())    
             
-       
         
     print("closing connections:")    
     client_socket1.close()
