@@ -1,0 +1,10 @@
+Eli
+create api class
+create gui - accepts all game information from server
+
+
+
+Judah
+server.py gets information from api class
+client runs the gui
+server sends informaton to client. client puts the informaton in the gui
