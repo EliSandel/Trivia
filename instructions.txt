@@ -41,4 +41,4 @@ the clients get the information and send in to a func on the gui class
 15)clients:
 the clients update the server that he can send the next questions
 16)server:
-the server calls to a func on the back class that makes level(2)
+the server calls to a func on the back class that makes level(1)
