@@ -1,5 +1,5 @@
 import socket
-import Trivia.backend.question_data as question_data
+import Trivia.question_data as question_data
 import select
 
 client1_counter = 0
@@ -51,9 +51,15 @@ def sendQuestion(question_and_ans):
         ###update th back class that they got the questions###
         
 def waitForAnswer():
-    ready = select.select([s], [], [], 10)
-    answer1 = client_socket1.recv(1024).decode() 
-    answer2 = client_socket1.recv(1024).decode() 
+    ready1 = select.select([client_socket1], [], [], 0.1)
+    ready2 = select.select([client_socket2], [], [], 0.1)
+    while not ready1[0]:
+        ready1 = select.select([client_socket1], [], [], 0.1)
+    answer1 = client_socket1.recv(1024).decode()
+    
+    while not ready2[0]:
+        ready2 = select.select([client_socket2], [], [], 0.1)
+    answer2 = client_socket2.recv(1024).decode() 
     
 def main():
    
