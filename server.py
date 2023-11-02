@@ -1,5 +1,5 @@
 import socket
-import Trivia.question_data as question_data
+import question_data
 import select
 
 client1_counter = 0
