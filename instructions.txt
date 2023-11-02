@@ -8,3 +8,37 @@ Judah
 server.py gets information from api class
 client runs the gui
 server sends informaton to client. client puts the informaton in the gui
+
+
+1)server:
+the server tells to the back class that the game starts
+2) back:
+calls "sendQuestion" func on the server class
+3) server:
+send to the clients the questions
+4)server:
+the server update the back if the questions was sent succesfuly
+5)back:
+the back calls "waitForAnswer"(recive)func on the server class
+6)server:
+the server waits for answer from the clients
+7)clients:
+gets the question and send it to a func on gui class
+8)gui:
+the gui class runs the question and graphics
+9)gui:
+the gui calls and send the user press answer to a func on the clients class
+10)clients:
+the clients send the pressed answer to the server
+11)server:
+the server recive the answer and pass it to the back class
+12)back:
+the back send to the server who is correct and more informations
+13)server:
+the server send the informations to the clients
+14)clients:
+the clients get the information and send in to a func on the gui class
+15)clients:
+the clients update the server that he can send the next questions
+16)server:
+the server calls to a func on the back class that makes level(2)
