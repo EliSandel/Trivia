@@ -39,7 +39,7 @@ def checkToExit(check1):
 def sendQuestion(question_and_ans):
     #sending to clients the question
     client_socket1.send("question".encode() + str(question_and_ans).encode())
-    client_socket1.send("question".encode() + str(question_and_ans).encode())
+    client_socket2.send("question".encode() + str(question_and_ans).encode())
     
 def main():
    
