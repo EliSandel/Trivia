@@ -28,6 +28,9 @@ def reciveTheFullServer_sent(x,server_sent):
 def close_comuunication():
         global exit
         exit = True
+def getAnswer(answer):
+    
+    return
 
 def main():
     while True:
