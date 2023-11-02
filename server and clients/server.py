@@ -1,5 +1,6 @@
 import socket
-import question_data
+import Trivia.backend.question_data as question_data
+import select
 
 client1_counter = 0
 client2_counter = 0
@@ -46,7 +47,14 @@ def sendQuestion(question_and_ans):
         client_socket1.send("question".encode() + str(question_and_ans).encode())
     while check2 == "didnt got question":
         client_socket2.send("question".encode() + str(question_and_ans).encode())
-    # if check1 == "got question":
+    if check1 == "got question" and check2 == "got question":
+        ###update th back class that they got the questions###
+        
+def waitForAnswer():
+    ready = select.select([s], [], [], 10)
+    answer1 = client_socket1.recv(1024).decode() 
+    answer2 = client_socket1.recv(1024).decode() 
+    
 def main():
    
     
