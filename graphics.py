@@ -14,7 +14,8 @@ class GameGraphics:
         self.root.title("Trivia")
         self.root.config(padx=50, pady=50, bg="white")
         
-        
+        self.score_label = tk.Label(text="score")
+        self.opponent_score_label = tk.Label(text="opponent score")
         self.question_label = tk.Label(text="question")
         self.buttons = {}
         self.buttons['a'] = tk.Button(text="a", command=partial(self.send_answer, 'a'))
@@ -22,11 +23,13 @@ class GameGraphics:
         self.buttons['c'] = tk.Button(text="c", command=partial(self.send_answer, 'c'))
         self.buttons['d'] = tk.Button(text="d", command=partial(self.send_answer, 'd'))
         
-        self.question_label.grid(row=0)
-        self.buttons['a'].grid(row=1)
-        self.buttons['b'].grid(row=2)
-        self.buttons['c'].grid(row=3)
-        self.buttons['d'].grid(row=4)
+        self.score_label.grid(row=0, column=0)
+        self.opponent_score_label.grid(row=0, column=2)
+        self.question_label.grid(row=1, column=1)
+        self.buttons['a'].grid(row=2, column=1)
+        self.buttons['b'].grid(row=3, column=1)
+        self.buttons['c'].grid(row=4, column=1)
+        self.buttons['d'].grid(row=5, column=1)
         
 
 
