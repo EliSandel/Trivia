@@ -1,11 +1,10 @@
 import tkinter as tk
 from functools import partial  # Import functools.partial
-
+import test
 
 class GameGraphics:
-    def __init__(self, root, all_questions):
+    def __init__(self, root):
         self.root = root
-        self.all_questions = all_questions
         self.counter = 0
         self.score = 0
         
@@ -18,10 +17,10 @@ class GameGraphics:
         
         self.question_label = tk.Label(text="question")
         self.buttons = {}
-        self.buttons['a'] = tk.Button(text="a", command=partial(self.check_answer, 'a'))
-        self.buttons['b'] = tk.Button(text="b", command=partial(self.check_answer, 'b'))
-        self.buttons['c'] = tk.Button(text="c", command=partial(self.check_answer, 'c'))
-        self.buttons['d'] = tk.Button(text="d", command=partial(self.check_answer, 'd'))
+        self.buttons['a'] = tk.Button(text="a", command=partial(self.send_answer, 'a'))
+        self.buttons['b'] = tk.Button(text="b", command=partial(self.send_answer, 'b'))
+        self.buttons['c'] = tk.Button(text="c", command=partial(self.send_answer, 'c'))
+        self.buttons['d'] = tk.Button(text="d", command=partial(self.send_answer, 'd'))
         
         self.question_label.grid(row=0)
         self.buttons['a'].grid(row=1)
@@ -29,25 +28,23 @@ class GameGraphics:
         self.buttons['c'].grid(row=3)
         self.buttons['d'].grid(row=4)
         
-        self.next_question()
 
 
         
+    def next_question(self, data):   
+        self.question_label.config(text=data['question'])
+        self.buttons['a'].config(text=data['all_answers'][0])
+        self.buttons['b'].config(text=data['all_answers'][1])
+        self.buttons['c'].config(text=data['all_answers'][2])
+        self.buttons['d'].config(text=data['all_answers'][3])
         
-    
-    def next_question(self):
-        if self.counter == len(self.all_questions):
-            self.game_over()
-        else:
-            current_question_data = self.all_questions[self.counter]
-            self.question_label.config(text=current_question_data['question'])
-            self.buttons['a'].config(text=current_question_data['all_answers'][0])
-            self.buttons['b'].config(text=current_question_data['all_answers'][1])
-            self.buttons['c'].config(text=current_question_data['all_answers'][2])
-            self.buttons['d'].config(text=current_question_data['all_answers'][3])
-            
-            
-    
+    def send_answer(self, answer):
+        player_answer = self.buttons[answer]['text']
+        test.get_answer(player_answer)    #i need to change test to client
+               
+               
+               
+               
     def game_over(self):
         print("gameover")
         print(f"youre score is: {self.score}")
@@ -73,22 +70,3 @@ class GameGraphics:
         self.counter += 1
         self.next_question()
 
-
-# root = tk.Tk()
-# data = [
-#     {
-#         'question': 'Which of these is NOT an Australian state or territory?', 
-#         'correct_answer': 'Alberta', 
-#         'incorrect_answers': ['New South Wales', 'Victoria', 'Queensland'], 
-#         'all_answers': ['New South Wales', 'Victoria', 'Queensland', 'Alberta']
-#     }, 
-#     {
-#         'question': 'Which of the following countries was not an axis power during World War II?', 
-#         'correct_answer': ' Soviet Union', 
-#         'incorrect_answers': ['Italy', 'Germany', 'Japan'], 
-#         'all_answers': ['Italy', 'Germany', 'Japan', ' Soviet Union']
-#     }
-# ]
-
-# gamegraphics = GameGraphics(root,data)
-# root.mainloop()

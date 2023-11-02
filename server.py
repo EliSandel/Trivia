@@ -1,5 +1,5 @@
 import socket
-import question_data
+import question_data as question_data
 
 client1_counter = 0
 client2_counter = 0
