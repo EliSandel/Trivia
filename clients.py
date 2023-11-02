@@ -1,5 +1,5 @@
 import socket
-import Trivia.frontend.graphics as graphics
+import Trivia.graphics as graphics
 import tkinter as tk
 
 root = tk.Tk()
@@ -7,7 +7,7 @@ my_counter = 0
 rival_counter = 0
 #open socket with server
 my_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-my_sock et.connect(("127.0.0.1",8822))
+my_socket.connect(("127.0.0.1",8822))
 print("connected")
 
 
