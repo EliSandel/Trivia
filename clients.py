@@ -32,6 +32,7 @@ def getAnswer(answer):
     
     return
 
+
 def main():
     while True:
             server_sent = my_socket.recv(1024).decode()
