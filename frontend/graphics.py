@@ -1,6 +1,6 @@
 import tkinter as tk
 from functools import partial  # Import functools.partial
-import test
+import ..server and clients.test
 
 class GameGraphics:
     def __init__(self, root):
