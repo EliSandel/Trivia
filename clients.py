@@ -46,7 +46,7 @@ def main():
                 server_sent = reciveTheFullServer_sent(8,server_sent)
             else:
                 print("404 not found")
-            my_socket.send(str(game_graphics.score).encode())
+            # my_socket.send(str(game_graphics.score).encode())
                 
             server_sent = my_socket.recv(1024).decode()
             if server_sent[:8] == "counters":

@@ -40,7 +40,13 @@ def sendQuestion(question_and_ans):
     #sending to clients the question
     client_socket1.send("question".encode() + str(question_and_ans).encode())
     client_socket2.send("question".encode() + str(question_and_ans).encode())
-    
+    check1 = client_socket1.recv(1024).decode() 
+    check2 = client_socket1.recv(1024).decode() 
+    while check1 == "didnt got question":
+        client_socket1.send("question".encode() + str(question_and_ans).encode())
+    while check2 == "didnt got question":
+        client_socket2.send("question".encode() + str(question_and_ans).encode())
+    # if check1 == "got question":
 def main():
    
     
