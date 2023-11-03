@@ -6,7 +6,6 @@ class Backend():
         self.score = [0, 0]  #assuming two players
         self.trivia_api = question_data.TriviaApi()
         self.data = self.trivia_api.get_trivia_questions()
-        self.next_question()
         
     def check_answer(self, player, answer):
         if answer == self.data[self.turn_counter]['correct_answer']:

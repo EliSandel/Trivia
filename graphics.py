@@ -1,5 +1,5 @@
 import tkinter as tk
-from functools import partial  # Import functools.partial
+from functools import partial 
 import test
 import clients
 
