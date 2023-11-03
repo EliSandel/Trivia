@@ -1,6 +1,7 @@
 import tkinter as tk
 from functools import partial 
 import test
+import json
 
 class GameGraphics:
     def __init__(self, root):
@@ -35,7 +36,9 @@ class GameGraphics:
 
         
     def next_question(self, data):
-        print(data)
+        print(type(data))
+        data = json.loads(data)
+        print(type(data))
         self.question_label.config(text=data['question'])
         self.buttons['a'].config(text=data['all_answers'][0], state= "enabled")
         self.buttons['b'].config(text=data['all_answers'][1], state= "enabled")
