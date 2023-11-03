@@ -1,9 +1,11 @@
 import socket
-import Trivia.graphics as graphics
+import graphics
 import tkinter as tk
 import select
 
 root = tk.Tk()
+gamegraphics = graphics.GameGraphics(root)
+
 
 
 #open socket with server
@@ -32,15 +34,21 @@ def getAnswer(answer):
             ready = select.select([my_socket], [], [], 0.1)
         server_sent = my_socket.recv(1024).decode()
         if server_sent[:4] == "info":
-            reciveTheFullServer_sent(4,server_sent)
-         ###pass the info to the gui class###
+            server_sent = reciveTheFullServer_sent(4,server_sent)
+            find_b = server_sent.find("b")
+            player1_score = server_sent[2:find_b]
+            player2_score = server_sent[find_b + 1:]
+            gamegraphics.recieve_players_score(player1_score,player2_score)  
+            
         else:
             print("got uncorrect answer")
             
 def getNextQuestion():
     my_socket.send("next question".encode())
+    main()
 
 def main():
+    root.mainloop()
     while True:
             ready = select.select([my_socket], [], [], 0.1)
             while not ready[0]:
@@ -52,9 +60,9 @@ def main():
                 server_sent = my_socket.recv(1024).decode()
             my_socket.send("got question".encode())
             server_sent = reciveTheFullServer_sent(8,server_sent)
-                ###send the question to the gui class###
-                
+            gamegraphics.next_question(eval(server_sent))
     
     print("client1 closed")
     my_socket.close()    
-    
+
+main()

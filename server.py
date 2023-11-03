@@ -1,9 +1,11 @@
 import socket
 import question_data
 import select
+import backend
 
 client1_counter = 0
 client2_counter = 0
+backend = backend.Backend()
 api_class = question_data.TriviaApi()  
 
 server_socket1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -27,7 +29,9 @@ def reciveTheFullServer_sent(x,server_sent):
     return server_sent
 
 
-def sendQuestion(question_and_ans):
+    
+def sendQuestion():
+    question_and_ans = backend.next_question()
     #sending to clients the question
     client_socket1.send("question".encode() + str(question_and_ans).encode())
     client_socket2.send("question".encode() + str(question_and_ans).encode())
@@ -38,7 +42,7 @@ def sendQuestion(question_and_ans):
     while check2 == "didnt got question":
         client_socket2.send("question".encode() + str(question_and_ans).encode())
     if check1 == "got question" and check2 == "got question":
-        ###update th back class that they got the questions### 
+        ###you can update th back class that they got the questions### 
         return
         
         
@@ -62,11 +66,17 @@ def waitForAnswers():
     else:
         answer2 = reciveTheFullServer_sent(15,answer2)
         client_socket2.send("got your answer".encode())
-     ###pass the answers to the back###
-     
-def infoForClients(info):
-    client_socket1.send("info".encode() + str(info).encode())
-    client_socket2.send("info".encode() + str(info).encode())
+        
+        backend.check_answer(0,answer1)
+        backend.check_answer(1,answer2)        
+        infoForClients()
+                         
+def infoForClients():
+    player1_score = backend.get_score(0)
+    player2_score = backend.get_score(1)
+    client_socket1.send("info".encode() + "a".encode() + str(player1_score).encode() + "b".encode() + str(player2_score).encode())
+    client_socket2.send("info".encode() + "a".encode() + str(player2_score).encode() + "b".encode() + str(player1_score).encode())
+    
     ready1 = select.select([client_socket1], [], [], 0.1)
     ready2 = select.select([client_socket2], [], [], 0.1)
     while not ready1[0]:
@@ -81,13 +91,9 @@ def infoForClients(info):
         if answer2[:13] != "next question":
             print("got unccorect messege")
         else:
-           ###ask the back class for next question###
-           return
-        
+            sendQuestion()        
 
    
-            
+sendQuestion()
         
         
-    
-    
