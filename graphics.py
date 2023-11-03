@@ -44,7 +44,7 @@ class GameGraphics:
         
     def send_answer(self, answer):
         player_answer = self.buttons[answer]['text']
-        clients.getAnswer(player_answer)    #i need to change test to client
+        clients.getAnswer(player_answer)  
                
                
                
