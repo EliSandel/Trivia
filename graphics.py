@@ -40,6 +40,7 @@ class GameGraphics:
         data = data.replace("'",'"')
         data = json.loads(data)
         print(type(data))
+        print(data)
         self.question_label.config(text=data['question'])
         self.buttons['a'].config(text=data['all_answers'][0], state= "enabled")
         self.buttons['b'].config(text=data['all_answers'][1], state= "enabled")
