@@ -44,33 +44,28 @@ class GameGraphics:
         
     def send_answer(self, answer):
         player_answer = self.buttons[answer]['text']
-        clients.getAnswer(player_answer)  
+        clients.getAnswer(player_answer)   
                
                
                
+       
+       
                
-    def game_over(self):
-        print("gameover")
-        print(f"youre score is: {self.score}")
-        exit()
+    # def game_over(self):
+    #     print("gameover")
+    #     print(f"youre score is: {self.score}")
+    #     exit()
         
     
+  
     
-    def correct_answer(self):
-        self.score += 1
-        print("youre right")
-    
-    
-    def wrong_answer(self):
-        print("youre wrong")
-    
-    def check_answer(self, answer):
-        player_answer = self.buttons[answer]['text']
-        if player_answer == self.all_questions[self.counter]['correct_answer']:
-            self.correct_answer()
-        else:
-            self.wrong_answer()
+    # def check_answer(self, answer):
+    #     player_answer = self.buttons[answer]['text']
+    #     if player_answer == self.all_questions[self.counter]['correct_answer']:
+    #         self.correct_answer()
+    #     else:
+    #         self.wrong_answer()
         
-        self.counter += 1
-        self.next_question()
+    #     self.counter += 1
+    #     self.next_question()
 

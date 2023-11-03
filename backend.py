@@ -23,4 +23,3 @@ class Backend():
     def get_score(self, player):
         return self.score[player]
         
-                
