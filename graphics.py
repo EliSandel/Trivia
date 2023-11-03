@@ -34,15 +34,21 @@ class GameGraphics:
 
 
         
-    def next_question(self, data):   
+    def next_question(self, data):
+        data = enumerate(data)   
         self.question_label.config(text=data['question'])
-        self.buttons['a'].config(text=data['all_answers'][0])
-        self.buttons['b'].config(text=data['all_answers'][1])
-        self.buttons['c'].config(text=data['all_answers'][2])
-        self.buttons['d'].config(text=data['all_answers'][3])
+        self.buttons['a'].config(text=data['all_answers'][0], state= "enabled")
+        self.buttons['b'].config(text=data['all_answers'][1], state= "enabled")
+        self.buttons['c'].config(text=data['all_answers'][2], state= "enabled")
+        self.buttons['d'].config(text=data['all_answers'][3], state= "enabled")
         
     def send_answer(self, answer):
         import clients
+        self.buttons['a'].config(state= "disabled")
+        self.buttons['b'].config(state= "disabled")
+        self.buttons['c'].config(state= "disabled")
+        self.buttons['d'].config(state= "disabled")
+
         player_answer = self.buttons[answer]['text']
         clients.getAnswer(player_answer)
     
