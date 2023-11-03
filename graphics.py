@@ -37,6 +37,7 @@ class GameGraphics:
         
     def next_question(self, data):
         print(type(data))
+        data = data.replace("'",'"')
         data = json.loads(data)
         print(type(data))
         self.question_label.config(text=data['question'])
