@@ -23,13 +23,4 @@ class Backend():
     def get_score(self, player):
         return self.score[player]
         
-        
-
-
-
-
-
-# if __name__== "__main__":
-#     print(next_question())
-#     print(turn_counter)
-        
+                
