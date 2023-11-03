@@ -55,7 +55,7 @@ class GameGraphics:
         self.buttons['d'].config(state= "disabled")
 
         player_answer = self.buttons[answer]['text']
-        clients.getAnswer(player_answer)
+        # clients.getAnswer(player_answer)
     
     def recieve_players_score(self,score1,score2):
         import clients

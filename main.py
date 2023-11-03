@@ -1,4 +1,4 @@
-import graphics
+import a
 import tkinter as tk
 
 root = tk.Tk()
@@ -17,6 +17,6 @@ data = [
     }
 ]
 
-gamegraphics = graphics.GameGraphics(root)
-gamegraphics.next_question(data[0])
+gamegraphics = a.GameGraphics(root)
+gamegraphics.next_question(str(data[0]))
 root.mainloop()
