@@ -1,7 +1,7 @@
 import tkinter as tk
 from functools import partial 
 import test
-# import json
+import json
 import ast
 
 class GameGraphics:
@@ -40,9 +40,11 @@ class GameGraphics:
         print(type(data))
         # data = data.replace("'",'"')
         # data = json.loads(data)
-        # print(type(data))
         data = ast.literal_eval(data)
+        print(data)
         print(type(data))
+        print(type(data))
+        print(data)
         self.question_label.config(text=data['question'])
         self.buttons['a'].config(text=data['all_answers'][0])
         self.buttons['b'].config(text=data['all_answers'][1])
@@ -57,7 +59,7 @@ class GameGraphics:
         self.buttons['d'].config(state= "disabled")
 
         player_answer = self.buttons[answer]['text']
-        clients.getAnswer(player_answer)
+        # clients.getAnswer(player_answer)
     
     def recieve_players_score(self,score1,score2):
         import clients

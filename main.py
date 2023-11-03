@@ -1,10 +1,10 @@
-import graphics
+import a
 import tkinter as tk
 
 root = tk.Tk()
 data = [
     {
-        'question': 'Which of these is NOT an Australian state or territory?', 
+        'question': 'Which of these is "NOT" an Australian state or territory?', 
         'correct_answer': 'Alberta', 
         'incorrect_answers': ['New South Wales', 'Victoria', 'Queensland'], 
         'all_answers': ['New South Wales', 'Victoria', 'Queensland', 'Alberta']
@@ -17,6 +17,6 @@ data = [
     }
 ]
 
-gamegraphics = graphics.GameGraphics(root)
-gamegraphics.next_question(data[0])
+gamegraphics = a.GameGraphics(root)
+gamegraphics.next_question(str({'question': "What does the letter 'S' stand for in 'NASA'?", 'correct_answer': 'Space', 'incorrect_answers': ['Science', 'Society', 'Star'], 'all_answers': ['Science', 'Society', 'Star','Space']}))
 root.mainloop()
