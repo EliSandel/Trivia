@@ -32,6 +32,8 @@ def reciveTheFullServer_sent(x,server_sent):
     
 def sendQuestion():
     question_and_ans = backend.next_question()
+    print(type(question_and_ans))
+    print(str(question_and_ans))
     #sending to clients the question
     client_socket1.send("question".encode() + str(question_and_ans).encode())
     client_socket2.send("question".encode() + str(question_and_ans).encode())

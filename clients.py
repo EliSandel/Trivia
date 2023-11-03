@@ -16,7 +16,7 @@ my_socket.connect(("127.0.0.1",8822))
 print("connected")
 
 
-def reciveTheFullServer_sent(x,server_sent):
+def reciveTheFullServer_sent(x,server_sent):            
     server_sent = server_sent[x:]
     return server_sent
     
@@ -50,8 +50,8 @@ def getNextQuestion():
     main()
 
 def runGui():
-    root.mainloop()
-    
+      root.mainloop()
+     
 
 def main():
     while True:
@@ -67,14 +67,23 @@ def main():
                 server_sent = my_socket.recv(1024).decode()
             my_socket.send("got question".encode())
             server_sent = reciveTheFullServer_sent(8,server_sent)
+            print(server_sent)
             gamegraphics.next_question(server_sent)
     
     print("client1 closed")
-    my_socket.close()    
+    my_socket.close()  
+      
+def startGmae():
+    thread1 = threading.Thread(target=runGui)
+    thread2 = threading.Thread(target=main)
+    # thread1.start()
+    thread2.start()
+    runGui()
     
-thread1 = threading.Thread(target=runGui)
-thread2 = threading.Thread(target=main)
-thread1.start()
-thread2.start()
+if __name__ == '__main__':
+    startGmae()
+
+    
+
 
 
