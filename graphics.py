@@ -35,7 +35,7 @@ class GameGraphics:
 
         
     def next_question(self, data):
-        data = eval(data)   
+        data = data[1:-1]   
         self.question_label.config(text=data['question'])
         self.buttons['a'].config(text=data['all_answers'][0], state= "enabled")
         self.buttons['b'].config(text=data['all_answers'][1], state= "enabled")
