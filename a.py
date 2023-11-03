@@ -2,6 +2,7 @@ import tkinter as tk
 from functools import partial 
 import test
 import json
+import ast
 
 class GameGraphics:
     def __init__(self, root):
@@ -37,8 +38,11 @@ class GameGraphics:
         
     def next_question(self, data):
         print(type(data))
-        data = data.replace("'",'"')
-        data = json.loads(data)
+        # data = data.replace("'",'"')
+        # data = json.loads(data)
+        data = ast.literal_eval(data)
+        print(data)
+        print(type(data))
         print(type(data))
         print(data)
         self.question_label.config(text=data['question'])
