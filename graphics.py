@@ -1,6 +1,7 @@
 import tkinter as tk
 from functools import partial  # Import functools.partial
 import test
+import clients
 
 class GameGraphics:
     def __init__(self, root):
@@ -43,7 +44,7 @@ class GameGraphics:
         
     def send_answer(self, answer):
         player_answer = self.buttons[answer]['text']
-        test.get_answer(player_answer)    #i need to change test to client
+        clients.getAnswer(player_answer)    #i need to change test to client
                
                
                
