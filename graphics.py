@@ -49,6 +49,7 @@ class GameGraphics:
     def recieve_players_score(self,score1,score2):
         self.score_label.config(text=f"Youre score: {score1}")
         self.opponent_score_label.config(text=f"Opponents score: {score2}")
+        clients.getNextQuestion()
         
        
                
