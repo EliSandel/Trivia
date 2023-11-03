@@ -1,7 +1,6 @@
 import tkinter as tk
 from functools import partial 
 import test
-import clients
 
 class GameGraphics:
     def __init__(self, root):
@@ -43,10 +42,12 @@ class GameGraphics:
         self.buttons['d'].config(text=data['all_answers'][3])
         
     def send_answer(self, answer):
+        import clients
         player_answer = self.buttons[answer]['text']
         clients.getAnswer(player_answer)
     
     def recieve_players_score(self,score1,score2):
+        import clients
         self.score_label.config(text=f"Youre score: {score1}")
         self.opponent_score_label.config(text=f"Opponents score: {score2}")
         clients.getNextQuestion()
