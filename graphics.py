@@ -44,7 +44,13 @@ class GameGraphics:
         
     def send_answer(self, answer):
         player_answer = self.buttons[answer]['text']
-        clients.getAnswer(player_answer)   
+        clients.getAnswer(player_answer)
+    
+    def recieve_players_score(self,score1,score2):
+        self.score_label.config(text=f"Youre score: {score1}")
+        self.opponent_score_label.config(text=f"Opponents score: {score2}")
+        
+       
                
                
                
