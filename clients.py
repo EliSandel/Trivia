@@ -2,6 +2,8 @@ import socket
 import graphics
 import tkinter as tk
 import select
+import threading
+
 
 root = tk.Tk()
 gamegraphics = graphics.GameGraphics(root)
@@ -47,22 +49,32 @@ def getNextQuestion():
     my_socket.send("next question".encode())
     main()
 
-def main():
+def runGui():
     root.mainloop()
+    
+
+def main():
     while True:
             ready = select.select([my_socket], [], [], 0.1)
             while not ready[0]:
                 ready = select.select([my_socket], [], [], 0.1)
+                print("still waiting")
             server_sent = my_socket.recv(1024).decode()
+            print("stop waiting")
 
             while server_sent[:8] != "question": 
                 my_socket.send("didnt got question")
                 server_sent = my_socket.recv(1024).decode()
             my_socket.send("got question".encode())
             server_sent = reciveTheFullServer_sent(8,server_sent)
-            gamegraphics.next_question(eval(server_sent))
+            gamegraphics.next_question(server_sent)
     
     print("client1 closed")
     my_socket.close()    
+    
+thread1 = threading.Thread(target=runGui)
+thread2 = threading.Thread(target=main)
+thread1.start()
+thread2.start()
 
-main()
+
