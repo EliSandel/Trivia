@@ -39,9 +39,9 @@ class GameGraphics:
         data = ast.literal_eval(data)
         self.question_label.config(text=data['question'])
         self.buttons['a'].config(text=data['all_answers'][0], state= "normal")
-        self.buttons['b'].config(text=data['all_answers'][1])
-        self.buttons['c'].config(text=data['all_answers'][2])
-        self.buttons['d'].config(text=data['all_answers'][3])
+        self.buttons['b'].config(text=data['all_answers'][1], state= "normal")
+        self.buttons['c'].config(text=data['all_answers'][2], state= "normal")
+        self.buttons['d'].config(text=data['all_answers'][3], state= "normal")
         
     def send_answer(self, answer):
         self.buttons['a'].config(state= "disabled")
@@ -53,7 +53,6 @@ class GameGraphics:
         self.client.getAnswer(player_answer)
     
     def recieve_players_score(self,score1,score2):
-        import clients
         self.score_label.config(text=f"Youre score: {score1}")
         self.opponent_score_label.config(text=f"Opponents score: {score2}")
         self.client.getNextQuestion()
