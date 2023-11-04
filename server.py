@@ -95,6 +95,8 @@ def waitForAnswers():
 def infoForClients():
     player1_score = backend.get_score(0)
     player2_score = backend.get_score(1)
+    print(player1_score)
+    print(player2_score)
     client_socket1.send("info".encode() + "a".encode() + str(player1_score).encode() + "b".encode() + str(player2_score).encode())
     client_socket2.send("info".encode() + "a".encode() + str(player2_score).encode() + "b".encode() + str(player1_score).encode())
     

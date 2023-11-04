@@ -41,9 +41,11 @@ class Clients():
             if server_sent[:4] == "info":
                 server_sent = self.reciveTheFullServer_sent(4,server_sent)
                 find_b = server_sent.find("b")
-                player1_score = server_sent[2:find_b]
+                player1_score = server_sent[1:find_b]
                 player2_score = server_sent[find_b + 1:]
                 print("got answer")
+                print(player1_score)
+                print(player2_score)
                 self.gamegraphics.recieve_players_score(player1_score,player2_score)  
                 
             else:
