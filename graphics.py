@@ -1,7 +1,6 @@
 import tkinter as tk
 from functools import partial 
 import test
-# import json
 import ast
 import clients
 
@@ -10,7 +9,6 @@ class GameGraphics:
         self.root = root
         self.counter = 0
         self.score = 0
-        self.client = clients.Clients()
         self.gui_setup()
         
     def gui_setup(self):
@@ -58,7 +56,7 @@ class GameGraphics:
         self.buttons['d'].config(state= "disabled")
 
         player_answer = self.buttons[answer]['text']
-        self.client.getAnswer(player_answer)
+        clients.Clients().getAnswer(player_answer)
         # clients.getAnswer(player_answer)
     
     def recieve_players_score(self,score1,score2):
@@ -79,16 +77,4 @@ class GameGraphics:
     #     print(f"youre score is: {self.score}")
     #     exit()
         
-    
-  
-    
-    # def check_answer(self, answer):
-    #     player_answer = self.buttons[answer]['text']
-    #     if player_answer == self.all_questions[self.counter]['correct_answer']:
-    #         self.correct_answer()
-    #     else:
-    #         self.wrong_answer()
-        
-    #     self.counter += 1
-    #     self.next_question()
 
