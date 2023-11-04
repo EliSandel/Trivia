@@ -58,24 +58,23 @@ class Clients():
         
 
     def main(self):
-        while True:
-                ready = select.select([self.my_socket], [], [], 0.1)
-                while not ready[0]:
-                    ready = select.select([self.my_socket], [], [], 0.1)
-                    # print("still waiting")
-                server_sent = self.my_socket.recv(1024).decode()
-                print("stop waiting")
-
-                while server_sent[:8] != "question": 
-                    self.my_socket.send("didnt got question".encode())
-                    server_sent = self.my_socket.recv(1024).decode()
-                self.my_socket.send("got question".encode())
-                server_sent = self.reciveTheFullServer_sent(8,server_sent)
-                print(server_sent)
-                self.gamegraphics.next_question(server_sent)
         
-        print("client1 closed")
-        self.my_socket.close()  
+        ready = select.select([self.my_socket], [], [], 0.1)
+        while not ready[0]:
+            ready = select.select([self.my_socket], [], [], 0.1)
+            # print("still waiting")
+        server_sent = self.my_socket.recv(1024).decode()
+        print("stop waiting")
+
+        while server_sent[:8] != "question": 
+            self.my_socket.send("didnt got question".encode())
+            server_sent = self.my_socket.recv(1024).decode()
+        self.my_socket.send("got question".encode())
+        server_sent = self.reciveTheFullServer_sent(8,server_sent)
+        print(server_sent)
+        self.gamegraphics.next_question(server_sent)
+        
+    
         
     def startGmae(self):
         self.openClient()
