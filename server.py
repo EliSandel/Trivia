@@ -39,9 +39,11 @@ def sendQuestion():
     check2 = client_socket1.recv(1024).decode()
     while check1 == "didnt got question":
         client_socket1.send("question".encode() + str(question_and_ans).encode())
+        print("didnt get one")
     print(check1+"1")
     while check2 == "didnt got question":
         client_socket2.send("question".encode() + str(question_and_ans).encode())
+        print("didnt get two")
     print(check2+"2") 
     print("exit function")
     waitForAnswers()
