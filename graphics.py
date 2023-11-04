@@ -50,7 +50,6 @@ class GameGraphics:
         self.buttons['d'].config(text=data['all_answers'][3])
         
     def send_answer(self, answer):
-        import clients
         self.buttons['a'].config(state= "disabled")
         self.buttons['b'].config(state= "disabled")
         self.buttons['c'].config(state= "disabled")

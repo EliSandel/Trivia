@@ -43,6 +43,7 @@ class Clients():
                 find_b = server_sent.find("b")
                 player1_score = server_sent[2:find_b]
                 player2_score = server_sent[find_b + 1:]
+                print("got answer")
                 self.gamegraphics.recieve_players_score(player1_score,player2_score)  
                 
             else:
@@ -61,12 +62,12 @@ class Clients():
                 ready = select.select([self.my_socket], [], [], 0.1)
                 while not ready[0]:
                     ready = select.select([self.my_socket], [], [], 0.1)
-                    print("still waiting")
+                    # print("still waiting")
                 server_sent = self.my_socket.recv(1024).decode()
                 print("stop waiting")
 
                 while server_sent[:8] != "question": 
-                    self.my_socket.send("didnt got question")
+                    self.my_socket.send("didnt got question".encode())
                     server_sent = self.my_socket.recv(1024).decode()
                 self.my_socket.send("got question".encode())
                 server_sent = self.reciveTheFullServer_sent(8,server_sent)
