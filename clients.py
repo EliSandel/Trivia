@@ -10,7 +10,7 @@ class Clients():
     def __init__(self):
         self.my_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         self.root = tk.Tk()
-        self.gamegraphics = graphics.GameGraphics(self.root)
+        self.gamegraphics = graphics.GameGraphics(self.root, self)
         
 
     def openClient(self):

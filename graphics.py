@@ -2,12 +2,14 @@ import tkinter as tk
 from functools import partial 
 import test
 import ast
+import clients
 
 class GameGraphics:
-    def __init__(self, root):
+    def __init__(self, root, client):
         self.root = root
         self.counter = 0
         self.score = 0
+        self.client = client
         self.gui_setup()
         
     def gui_setup(self):
@@ -42,7 +44,7 @@ class GameGraphics:
         data = ast.literal_eval(data)
         print(type(data))
         self.question_label.config(text=data['question'])
-        self.buttons['a'].config(text=data['all_answers'][0])
+        self.buttons['a'].config(text=data['all_answers'][0], state= "normal")
         self.buttons['b'].config(text=data['all_answers'][1])
         self.buttons['c'].config(text=data['all_answers'][2])
         self.buttons['d'].config(text=data['all_answers'][3])
@@ -55,14 +57,14 @@ class GameGraphics:
         self.buttons['d'].config(state= "disabled")
 
         player_answer = self.buttons[answer]['text']
-        clients.Clients().getAnswer(player_answer)
-        # clients.getAnswer(player_answer)
+        self.client.getAnswer(player_answer)
+         # clients.getAnswer(player_answer)
     
     def recieve_players_score(self,score1,score2):
         import clients
         self.score_label.config(text=f"Youre score: {score1}")
         self.opponent_score_label.config(text=f"Opponents score: {score2}")
-        clients.getNextQuestion()
+        self.client.getNextQuestion()
         
        
                
