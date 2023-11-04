@@ -3,13 +3,14 @@ from functools import partial
 import test
 # import json
 import ast
+import clients
 
 class GameGraphics:
     def __init__(self, root):
         self.root = root
         self.counter = 0
         self.score = 0
-        
+        self.client = clients.Clients()
         self.gui_setup()
         
     def gui_setup(self):
@@ -57,7 +58,8 @@ class GameGraphics:
         self.buttons['d'].config(state= "disabled")
 
         player_answer = self.buttons[answer]['text']
-        clients.getAnswer(player_answer)
+        self.client.getAnswer(player_answer)
+        # clients.getAnswer(player_answer)
     
     def recieve_players_score(self,score1,score2):
         import clients
