@@ -2,7 +2,6 @@ import tkinter as tk
 from functools import partial 
 import test
 import ast
-import clients
 
 class GameGraphics:
     def __init__(self, root):
