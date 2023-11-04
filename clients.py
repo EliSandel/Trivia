@@ -15,7 +15,7 @@ class Clients():
 
     def openClient(self):
         #open socket with server
-        self.my_socket.connect(("127.0.0.1",8822))
+        self.my_socket.connect(("192.168.1.240",8822))
         print("connected")
 
 
