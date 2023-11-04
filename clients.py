@@ -69,9 +69,10 @@ class Clients():
         while server_sent[:8] != "question": 
             self.my_socket.send("didnt got question".encode())
             server_sent = self.my_socket.recv(1024).decode()
+        print("sending to server got question")
         self.my_socket.send("got question".encode())
         server_sent = self.reciveTheFullServer_sent(8,server_sent)
-        print(server_sent)
+        print("sending queestoin to graphics")
         self.gamegraphics.next_question(server_sent)
         
     

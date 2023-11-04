@@ -32,23 +32,26 @@ def reciveTheFullServer_sent(x,server_sent):
     
 def sendQuestion():
     question_and_ans = backend.next_question()
-    print(type(question_and_ans))
-    print(str(question_and_ans))
     #sending to clients the question
     client_socket1.send("question".encode() + str(question_and_ans).encode())
     client_socket2.send("question".encode() + str(question_and_ans).encode())
     check1 = client_socket1.recv(1024).decode() 
-    check2 = client_socket1.recv(1024).decode() 
+    check2 = client_socket1.recv(1024).decode()
     while check1 == "didnt got question":
         client_socket1.send("question".encode() + str(question_and_ans).encode())
+    print(check1+"1")
     while check2 == "didnt got question":
         client_socket2.send("question".encode() + str(question_and_ans).encode())
-    if check1 == "got question" and check2 == "got question":
-        ###you can update th back class that they got the questions### 
-        return
+    print(check2+"2") 
+    print("exit function")
+    waitForAnswers()
+    # if check1 == "got question" and check2 == "got question":
+    #     ###you can update th back class that they got the questions### 
+    #     pass
         
         
 def waitForAnswers():
+    print("entering waitforanswer")
     ready1 = select.select([client_socket1], [], [], 0.1)
     ready2 = select.select([client_socket2], [], [], 0.1)
     while not ready1[0]:
