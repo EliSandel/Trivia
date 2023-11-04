@@ -31,20 +31,34 @@ def reciveTheFullServer_sent(x,server_sent):
 
     
 def sendQuestion():
+    flag1 = 0
+    flag2 = 0
     question_and_ans = backend.next_question()
     #sending to clients the question
     client_socket1.send("question".encode() + str(question_and_ans).encode())
     client_socket2.send("question".encode() + str(question_and_ans).encode())
-    check1 = client_socket1.recv(1024).decode() 
-    check2 = client_socket1.recv(1024).decode()
-    while check1 == "didnt got question":
-        client_socket1.send("question".encode() + str(question_and_ans).encode())
-        print("didnt get one")
-    print(check1+"1")
-    while check2 == "didnt got question":
-        client_socket2.send("question".encode() + str(question_and_ans).encode())
-        print("didnt get two")
-    print(check2+"2") 
+    print("question sent")
+    ready1 = client_socket1.recv(1024).decode() 
+    ready2 = client_socket2.recv(1024).decode()
+    while not ready1[0] and flag1 != 0:
+        ready1 = select.select([client_socket1], [], [], 0.1)
+        check1 = client_socket1.recv(1024).decode() 
+        if check1 == "didnt got question":
+            client_socket1.send("question".encode() + str(question_and_ans).encode())
+            print("didnt get two")
+        if check1 == "got question":
+            flag1 = 1
+            print(check1+"1")
+        
+    while not ready2[0] and flag2 != 0:
+        ready2 = select.select([client_socket1], [], [], 0.1)
+        check2 = client_socket2.recv(1024).decode() 
+        if check2 == "didnt got question":
+            client_socket2.send("question".encode() + str(question_and_ans).encode())
+            print("didnt get two")
+        if check2 == "got question":
+            flag2 = 1
+            print(check2+"1")
     print("exit function")
     waitForAnswers()
     # if check1 == "got question" and check2 == "got question":
