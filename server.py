@@ -10,7 +10,7 @@ api_class = question_data.TriviaApi()
 
 class Server():
     
-    def __init__(self):
+    def __init__(self,array_of_sockets):
         server_socket1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_socket1.bind(("0.0.0.0",8833))
         server_socket1.listen()
