@@ -15,7 +15,7 @@ class Backend():
         if self.amount_of_players_answered == 2:
             self.amount_of_players_answered = 0
             self.turn_counter += 1
-            if self.turn_counter == len(self.data + 1):
+            if self.turn_counter == len(self.data) + 1:
                 self.game_over()
 
     def correct_answer(self, player):

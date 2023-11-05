@@ -3,14 +3,11 @@ import question_data
 import select
 import backend
 
-client1_counter = 0
-client2_counter = 0
-backend = backend.Backend()
-api_class = question_data.TriviaApi()  
 
 class Server():
     
-    def __init__(self,array_of_sockets):
+    def __init__(self):
+        self.backend = backend.Backend(self)
         server_socket1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_socket1.bind(("0.0.0.0",8833))
         server_socket1.listen()
@@ -19,7 +16,7 @@ class Server():
         print("first client connected")
         (self.client_socket2,self.client_address2) = server_socket1.accept()
         print("secound client connected")
-        self.question_and_ans = backend.next_question()
+        self.question_and_ans = self.backend.next_question()
 
 
 
@@ -44,7 +41,7 @@ class Server():
                 self.waitForAnswers(check1,check2)
             if check1[:13] == "next question" and  check2[:13] == "next question":
                 print("5")
-                self.question_and_ans = backend.next_question()
+                self.question_and_ans = self.backend.next_question()
                 self.sendQuestion()
             
                  
@@ -72,13 +69,13 @@ class Server():
            
             answer2 = self.reciveTheFullServer_sent(15,answer2)
             
-            backend.check_answer(0,answer1)
-            backend.check_answer(1,answer2)        
+            self.backend.check_answer(0,answer1)
+            self.backend.check_answer(1,answer2)        
             self.infoForClients()
                             
     def infoForClients(self):
-        player1_score = backend.get_score(0)
-        player2_score = backend.get_score(1)
+        player1_score = self.backend.get_score(0)
+        player2_score = self.backend.get_score(1)
         
         self.client_socket1.send("info".encode() + "a".encode() + str(player1_score).encode() + "b".encode() + str(player2_score).encode())
         self.client_socket2.send("info".encode() + "a".encode() + str(player2_score).encode() + "b".encode() + str(player1_score).encode())
