@@ -1,5 +1,6 @@
 import requests
 import html
+import random
 
 #this class return a list with questions. each item in the list is a dict that has a question, right answer, wrong answers[], all answers[]
 
@@ -31,10 +32,11 @@ class TriviaApi:
         # Extract and display the questions and answers
         for question in data['results']:
             current_question = html.unescape(question['question'])
-            correct_answer = question['correct_answer']
-            incorrect_answers = question['incorrect_answers']
+            correct_answer = html.unescape(question['correct_answer'])
+            incorrect_answers = [html.unescape(answer) for answer in question['incorrect_answers']]
             all_answers = incorrect_answers.copy()
             all_answers.append(correct_answer)
+            random.shuffle(all_answers)
             self.all_questions.append(
                 {'question': current_question, 
                     'correct_answer': correct_answer, 
