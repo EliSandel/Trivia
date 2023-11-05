@@ -64,14 +64,20 @@ class GameGraphics:
     def start_thread(self, answer): #when clicking the button i want to call the button func from within a thread so it wont crash
         threading.Thread(target= self.send_answer, args=(answer)).start()
         
+              
+    def game_over(self, winners):
+        self.root.destroy()
+        root = tk.Tk()
+        if len(winners) == 1:
+            winner_label = tk.Label(text=f"Player {winners[0]} won the game!")
+            winner_label.pack()
+        else:
+            title_label = tk.Label(text=f"The winners are")
+            title_label.pack()
+            for winner in winners:
+                winner_label = tk.Label(text=f"Player {winner}!")
+                winner_label.pack()
         
-       
-                        
-       
-               
-    # def game_over(self):
-    #     print("gameover")
-    #     print(f"youre score is: {self.score}")
-    #     exit()
+        root.protocol("WM_DELETE_WINDOW", root.quit) #close the program when the window is closed
         
 

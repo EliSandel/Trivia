@@ -2,6 +2,7 @@ import question_data
 
 class Backend():
     def __init__(self, server):
+        self.server = server
         self.turn_counter = 0
         self.score = [0, 0]  #assuming two players
         self.amount_of_players_answered = 0
@@ -15,7 +16,7 @@ class Backend():
         if self.amount_of_players_answered == 2:
             self.amount_of_players_answered = 0
             self.turn_counter += 1
-            if self.turn_counter == len(self.data) + 1:
+            if self.turn_counter == len(self.data) + 1:#when i run the test try without +1
                 self.game_over()
 
     def correct_answer(self, player):
@@ -29,5 +30,7 @@ class Backend():
         return self.score[player]
     
     def game_over(self):
-        pass
+        highest_score = max(self.score) 
+        winners = [player for player, score in enumerate(self.score) if score == highest_score]
+        self.server.game_over(winners)
         
