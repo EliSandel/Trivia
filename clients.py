@@ -81,9 +81,7 @@ class Clients():
         
     def startGmae(self):
         self.openClient()
-        thread1 = threading.Thread(target=self.runGui)
         thread2 = threading.Thread(target=self.main)
-        # thread1.start()
         thread2.start()
         self.runGui()
             
