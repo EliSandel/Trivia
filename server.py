@@ -40,26 +40,21 @@ def sendQuestion():
     print("question sent")
     ready1 = client_socket1.recv(1024).decode() 
     ready2 = client_socket2.recv(1024).decode()
-    while not ready1[0] and flag1 != 0:
+    while not ready1[0] and flag1 == 0:
         ready1 = select.select([client_socket1], [], [], 0.1)
         check1 = client_socket1.recv(1024).decode() 
         if check1 == "didnt got question":
             client_socket1.send("question".encode() + str(question_and_ans).encode())
-            print("didnt get two")
         if check1 == "got question":
             flag1 = 1
-            print(check1+"1")
         
     while not ready2[0] and flag2 != 0:
         ready2 = select.select([client_socket1], [], [], 0.1)
         check2 = client_socket2.recv(1024).decode() 
         if check2 == "didnt got question":
             client_socket2.send("question".encode() + str(question_and_ans).encode())
-            print("didnt get two")
         if check2 == "got question":
             flag2 = 1
-            print(check2+"1")
-    print("exit function")
     waitForAnswers()
     # if check1 == "got question" and check2 == "got question":
     #     ###you can update th back class that they got the questions### 
@@ -67,7 +62,6 @@ def sendQuestion():
         
         
 def waitForAnswers():
-    print("entering waitforanswer")
     ready1 = select.select([client_socket1], [], [], 0.1)
     ready2 = select.select([client_socket2], [], [], 0.1)
     while not ready1[0]:
@@ -95,8 +89,7 @@ def waitForAnswers():
 def infoForClients():
     player1_score = backend.get_score(0)
     player2_score = backend.get_score(1)
-    print(player1_score)
-    print(player2_score)
+    
     client_socket1.send("info".encode() + "a".encode() + str(player1_score).encode() + "b".encode() + str(player2_score).encode())
     client_socket2.send("info".encode() + "a".encode() + str(player2_score).encode() + "b".encode() + str(player1_score).encode())
     
