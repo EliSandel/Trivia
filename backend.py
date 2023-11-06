@@ -16,7 +16,7 @@ class Backend():
         self.turn_counter += 1
 
     def correct_answer(self, player):
-        self.score[player] += 1
+        self.scores[player] += 1
 
     def next_question(self):
         question = self.data[self.turn_counter]
