@@ -6,6 +6,7 @@ class Backend():
         self.player_names = player_names
         self.turn_counter = 0
         self.scores = []  
+        self.initiate_score_list()
         self.trivia_api = question_data.TriviaApi()
         self.data = self.trivia_api.get_trivia_questions()
         
@@ -32,4 +33,8 @@ class Backend():
         highest_score = max(self.scores) 
         winners = [player for player, scores in enumerate(self.scores) if scores == highest_score]
         self.server.game_over(winners)
+        
+    def initiate_score_list(self):
+        for player in self.player_names:
+            self.scores.append(0)
         
