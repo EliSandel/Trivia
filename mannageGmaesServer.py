@@ -43,10 +43,11 @@ class Rooms():
         find_R = client_request.find("R")
         number_of_room = client_request[find_R +1:]
         the_list_of_sockets = self.roomsSockets[int(number_of_room)]
+        the_list_of_names = self.roomsID[int(number_of_room)]
         for x in the_list_of_sockets:
                 client_room = x
                 client_room.send("pass to server class".encode())
-        serverGame = server.Server(the_list_of_sockets,self.roomsID)
+        serverGame = server.Server(the_list_of_sockets,the_list_of_names)
                 
         
         

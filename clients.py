@@ -59,11 +59,13 @@ class Clients():
         print("got info")
         server_sent = self.reciveTheFullServer_sent(4,server_sent)
         find_o = server_sent.find("o")
-        my_score = server_sent[1:find_o]
+        my_score = server_sent[:find_o]
         others_score = server_sent[find_o + 1:]
         print("got answer")
+        print(my_score)
+        print(others_score)
         self.gamegraphics.recieve_players_score(my_score,others_score) 
-        
+               
         
     def getAnswer(self,answer):
         print("send answer")

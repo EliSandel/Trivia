@@ -9,6 +9,7 @@ class Server():
     def __init__(self,array_of_sockets,array_of_names):
         self.array_of_names = array_of_names
         self.array_of_sockets = array_of_sockets
+        print(array_of_names)
         self.backend = backend.Backend(self,array_of_names)
         server_socket1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.question_and_ans = self.backend.next_question()
@@ -73,8 +74,11 @@ class Server():
             
             
     def waitForAnswers(self,array_of_answers):
+              counter = 0
               for answer in array_of_answers:
-                answer = self.reciveTheFullServer_sent(15,answer)
+                array_of_answers[int(counter)] = self.reciveTheFullServer_sent(15,answer)
+                counter += 1
+              print(array_of_answers)
               self.backend.check_answer(array_of_answers)    
               self.infoForClients()
                             
@@ -85,6 +89,8 @@ class Server():
         for x in players_score:
             my_score = players_score[counter]
             print("forit")
+            print(counter)
+            print(my_score)
             self.array_of_sockets[counter].send("info".encode() + str(my_score).encode() + "o".encode() + str(players_score).encode())
             counter += 1
             print("answer sent to " + str(counter) +" clients")

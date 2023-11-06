@@ -35,6 +35,7 @@ class Backend():
         self.server.game_over(winners)
         
     def initiate_score_list(self):
+        print(self.player_names)
         for player in self.player_names:
             self.scores.append(0)
         
