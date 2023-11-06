@@ -7,18 +7,18 @@ import backend
 class Server():
     
     def __init__(self,array_of_sockets,array_of_names):
-        self.backend = backend.Backend(self)
+        self.array_of_names = array_of_names
+        self.array_of_sockets = array_of_sockets
+        self.backend = backend.Backend(self,array_of_names)
         server_socket1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # server_socket1.bind(("0.0.0.0",8833))
         # server_socket1.listen()
-        self.array_of_sockets = array_of_sockets
         # print("socket1 is up and ready!")
         # (self.client_socket1,self.client_address1) = server_socket1.accept()
         # print("first client connected")
         # (self.client_socket2,self.client_address2) = server_socket1.accept()
         # print("secound client connected")
         self.question_and_ans = self.backend.next_question()
-        self.array_of_names = array_of_names
         counter = 1
         for x in self.array_of_sockets:
                 client_room = x
