@@ -40,13 +40,15 @@ class Rooms():
                  
                 
     def startingGame(self,client_request):
-        # s = server.Server()
         find_R = client_request.find("R")
         number_of_room = client_request[find_R +1:]
         the_list_of_sockets = self.roomsSockets[int(number_of_room)]
         for x in the_list_of_sockets:
                 client_room = x
-                client_room.send("resuming".encode())
+                client_room.send("pass to server class".encode())
+        serverGame = server.Server(the_list_of_sockets,self.roomsID)
+                
+        
         
         
     def joinRoom(self,client_request,client_room,find_N):
