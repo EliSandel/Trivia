@@ -6,29 +6,32 @@ import backend
 
 class Server():
     
-    def __init__(self,array_of_sockets):
+    def __init__(self,array_of_sockets,array_of_names):
         self.backend = backend.Backend(self)
         server_socket1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # server_socket1.bind(("0.0.0.0",8833))
         # server_socket1.listen()
         self.array_of_sockets = array_of_sockets
         # print("socket1 is up and ready!")
-        (self.client_socket1,self.client_address1) = server_socket1.accept()
+        # (self.client_socket1,self.client_address1) = server_socket1.accept()
         # print("first client connected")
-        (self.client_socket2,self.client_address2) = server_socket1.accept()
+        # (self.client_socket2,self.client_address2) = server_socket1.accept()
         # print("secound client connected")
         self.question_and_ans = self.backend.next_question()
+        self.array_of_names = array_of_names
         counter = 1
         for x in self.array_of_sockets:
                 client_room = x
                 client_room.send("connected to server".encode())
-                print("client " + counter + " connected")
+                print("client " + str(counter) + " connected")
                 counter += 1
+        self.sendQuestion()
 
 
     
         
     def main(self):
+        print("main func")
         while True:
             flag = 0
             checks = []
@@ -67,10 +70,11 @@ class Server():
         
         
     def sendQuestion(self):
+       print("send question func")
        counter = 1
        for client in self.array_of_sockets:
                 client.send("question".encode() + str(self.question_and_ans).encode())
-                print("question sent to client " + counter)
+                print("question sent to client " + str(counter))
                 counter += 1
        self.main()        
     #    self.client_socket1.send("question".encode() + str(self.question_and_ans).encode())
@@ -106,8 +110,8 @@ class Server():
         
        
         
-if __name__ == '__main__':
-    server = Server()
-    server.sendQuestion()
-            
+# if __name__ == '__main__':
+#     print("im here")
+#     server = Server(array_of_sockets)
+#     server.sendQuestion()
             

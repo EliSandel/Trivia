@@ -9,7 +9,7 @@ class Clients():
     
     def __init__(self):
         self.my_socket_room = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        self.my_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        # self.my_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         self.root = tk.Tk()
         self.gamegraphics = graphics.GameGraphics(self.root, self)
         
@@ -67,12 +67,12 @@ class Clients():
         
     def getAnswer(self,answer):
         print("send answer")
-        self.my_socket.send("selected answer".encode()+str(answer).encode())
+        self.my_socket_room.send("selected answer".encode()+str(answer).encode())
         
                 
                 
     def getNextQuestion(self):
-        self.my_socket.send("next question".encode())
+        self.my_socket_room.send("next question".encode())
         self.main()
 
     def runGui(self):
@@ -86,8 +86,8 @@ class Clients():
         
     def main(self):
         while True:
-           
-            server_sent = self.my_socket.recv(1024).decode()
+            print("waiting for recive")
+            server_sent = self.my_socket_room.recv(1024).decode()
             if server_sent[:8] == "question":
                 self.gettingQuestions(server_sent)
             elif server_sent[:4] == "info":

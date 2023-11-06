@@ -46,7 +46,7 @@ class Rooms():
         for x in the_list_of_sockets:
                 client_room = x
                 client_room.send("pass to server class".encode())
-        serverGame = server.Server(the_list_of_sockets)
+        serverGame = server.Server(the_list_of_sockets,self.roomsID)
                 
         
         
