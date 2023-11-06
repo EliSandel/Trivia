@@ -7,8 +7,7 @@ import threading
 class GameGraphics:
     def __init__(self, root, client):
         self.root = root
-        self.counter = 0
-        self.score = 0
+        self.all_scores = []
         self.client = client
         self.gui_setup()
         
@@ -17,7 +16,6 @@ class GameGraphics:
         self.root.config(padx=50, pady=50, bg="white")
         
         self.score_label = tk.Label(text=f"score: {0}")
-        self.opponent_score_label = tk.Label(text=f"opponent score: {0}")
         self.question_label = tk.Label(text="question")
         self.waiting_label = tk.Label(text="Waiting for opponent's answer", fg="red")  # Add a label for waiting message
         self.buttons = {}
@@ -26,8 +24,7 @@ class GameGraphics:
         self.buttons['c'] = tk.Button(text="c", command=partial(self.start_thread, 'c'))
         self.buttons['d'] = tk.Button(text="d", command=partial(self.start_thread, 'd'))
         
-        self.score_label.grid(row=0, column=0)
-        self.opponent_score_label.grid(row=0, column=2)
+        self.score_label.grid(row=0, column=1)
         self.question_label.grid(row=1, column=1)
         self.buttons['a'].grid(row=2, column=1)
         self.buttons['b'].grid(row=3, column=1)
@@ -55,10 +52,9 @@ class GameGraphics:
         player_answer = self.buttons[answer]['text']
         self.client.getAnswer(player_answer)
     
-    def recieve_players_score(self,score1,score2):
+    def recieve_players_score(self,my_score, all_scores): #str myscore, str list of all scores
         self.waiting_label.grid_forget()
-        self.score_label.config(text=f"Youre score: {score1}")
-        self.opponent_score_label.config(text=f"Opponents score: {score2}")
+        self.score_label.config(text=f"Youre score: {my_score}")
         self.client.getNextQuestion()
         
     def start_thread(self, answer): #when clicking the button i want to call the button func from within a thread so it wont crash

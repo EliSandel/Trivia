@@ -1,23 +1,19 @@
 import question_data
 
 class Backend():
-    def __init__(self, server):
+    def __init__(self, server, player_names):
         self.server = server
+        self.player_names = player_names
         self.turn_counter = 0
-        self.score = [0, 0]  #assuming two players
-        self.amount_of_players_answered = 0
+        self.scores = []  
         self.trivia_api = question_data.TriviaApi()
         self.data = self.trivia_api.get_trivia_questions()
         
-    def check_answer(self, player, answer):
-        if answer == self.data[self.turn_counter]['correct_answer']:
-            self.correct_answer(player)
-        self.amount_of_players_answered += 1
-        if self.amount_of_players_answered == 2:
-            self.amount_of_players_answered = 0
-            self.turn_counter += 1
-            if self.turn_counter == len(self.data) + 1:#when i run the test try without +1
-                self.game_over()
+    def check_answer(self, array_of_answers): #array of answers
+        for player_index,answer in enumerate(array_of_answers):
+            if answer == self.data[self.turn_counter]['correct_answer']:
+                self.correct_answer(player_index)
+        self.turn_counter += 1
 
     def correct_answer(self, player):
         self.score[player] += 1
@@ -26,11 +22,14 @@ class Backend():
         question = self.data[self.turn_counter]
         return question
 
-    def get_score(self, player):
-        return self.score[player]
+    def get_score(self): #return the array
+        # if self.turn_counter == len(self.data) + 1:#when i run the test try without +1
+        #     self.game_over()
+        # else:
+        return self.scores
     
     def game_over(self):
-        highest_score = max(self.score) 
-        winners = [player for player, score in enumerate(self.score) if score == highest_score]
+        highest_score = max(self.scores) 
+        winners = [player for player, scores in enumerate(self.scores) if scores == highest_score]
         self.server.game_over(winners)
         
