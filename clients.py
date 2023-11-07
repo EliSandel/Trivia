@@ -17,43 +17,54 @@ class Clients():
     def openClient(self):
         self.my_socket_room.connect(("127.0.0.1",8833))
         print("connected to rooms server")
-        his_mind = input("options: create room/join room?")
-        get_username = input("whats your name?")
-        if his_mind == "join room":
-            get_num_of_room = input("whats the number of room?")
-            self.my_socket_room.send(his_mind.encode() + "N".encode() +  str(get_username).encode() + "R".encode() + str(get_num_of_room).encode())
-            rooms_answer = self.my_socket_room.recv(1024).decode()
-        else:
-            self.my_socket_room.send(his_mind.encode() + "N".encode() +  str(get_username).encode())
-            rooms_answer = self.my_socket_room.recv(1024).decode()
-            if rooms_answer[:28] == "room was created succesfully":
-                find_N = rooms_answer.find("N")
-                my_room_number = rooms_answer[find_N+1:]
-                startGame = input("press enter to start geme")
-                self.my_socket_room.send("start game".encode() + "R".encode() + my_room_number.encode())
-        
-        
-        
-        
-        if rooms_answer[:28] == "room was created succesfully" or rooms_answer == "joined succesfully":
-            print(rooms_answer)
-            rooms_answer = self.my_socket_room.recv(1024).decode()
-            print(rooms_answer)
-            rooms_answer = self.my_socket_room.recv(1024).decode()
-            print(rooms_answer)
+        # his_mind = input("options: create room/join room?")
+        # get_username = input("whats your name?")
+        # if his_mind == "join room":
+            # get_num_of_room = input("whats the number of room?")
+            # self.my_socket_room.send(his_mind.encode() + "N".encode() +  str(get_username).encode() + "R".encode() + str(get_num_of_room).encode())
+            # rooms_answer = self.my_socket_room.recv(1024).decode()
+        # else:
+            # self.my_socket_room.send(his_mind.encode() + "N".encode() +  str(get_username).encode())
+            # rooms_answer = self.my_socket_room.recv(1024).decode()
+            # if rooms_answer[:28] == "room was created succesfully":
+                # find_N = rooms_answer.find("N")
+                # my_room_number = rooms_answer[find_N+1:]
+                # startGame = input("press enter to start geme")
+                # self.my_socket_room.send("start game".encode() + "R".encode() + my_room_number.encode())
+         
+        # if rooms_answer[:28] == "room was created succesfully" or rooms_answer == "joined succesfully":
+        #     print(rooms_answer)
+        #     rooms_answer = self.my_socket_room.recv(1024).decode()
+        #     print(rooms_answer)
+        #     rooms_answer = self.my_socket_room.recv(1024).decode()
+        #     print(rooms_answer)
     
     
             #open socket with server
         # self.my_socket.connect(("127.0.0.1",8833))
         # print("connected")
-
+    
+    
+    def create_room(self,player_name,room_name):
+        self.my_socket_room.send("create room".encode() + "N".encode() +  str(player_name).encode() + "R".encode() + str(room_name).encode())
+        rooms_answer = self.my_socket_room.recv(1024).decode()
+        if rooms_answer[:28] == "room was created succesfully":
+            find_I = rooms_answer.find("I")
+            room_id = rooms_answer[find_I+1:]
+            self.gamegraphics.create_room(room_id)
+            
+            
+    def start_game(self,room_id):
+        self.my_socket_room.send("start game".encode() + "R".encode() + str(room_id).encode())
+        
 
     def reciveTheFullServer_sent(self,x,server_sent):            
         server_sent = server_sent[x:]
         return server_sent
         
         
-  
+    def join_room(self,player_name,room_id):
+        self.my_socket_room.send("join room".encode() + "N".encode() +  str(player_name).encode() + "R".encode() + str(room_id).encode())
             
     def sendInfoToGraphics(self,server_sent):
         print("got info")
@@ -86,6 +97,16 @@ class Clients():
         print("sending queestoin to graphics")
         self.gamegraphics.next_question(server_sent)
         
+    def send_player_joined(self,server_sent):
+        server_sent = self.reciveTheFullServer_sent(18,server_sent)
+        find_R = server_sent.find("R")
+        room_name = server_sent[find_R + 1:]
+        self.gamegraphics.join_room(room_name)
+        
+    def send_player_didnt_joine(self,server_sent):
+        server_sent = self.reciveTheFullServer_sent(32,server_sent)
+        self.gamegraphics.room_not_found()
+        
     def main(self):
         while True:
             print("waiting for recive")
@@ -94,6 +115,12 @@ class Clients():
                 self.gettingQuestions(server_sent)
             elif server_sent[:4] == "info":
                 self.sendInfoToGraphics(server_sent)
+            elif server_sent[:18] == "joined succesfully":############
+                self.send_player_joined(server_sent)
+            elif server_sent[:32] == "failed to join not found room id":
+                self.send_player_didnt_joine(server_sent)
+                
+                
 
            
         

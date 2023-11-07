@@ -14,8 +14,8 @@ class Server():
         self.question_and_ans = self.backend.next_question()
         counter = 1
         for x in self.array_of_sockets:
-                client_room = x
-                client_room.send("connected to server".encode())
+                # client_room = x
+                # client_room.send("connected to server".encode())
                 print("client " + str(counter) + " connected")
                 counter += 1
         self.sendQuestion()
