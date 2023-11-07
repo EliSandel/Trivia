@@ -9,11 +9,12 @@ class Rooms():
         self.room_socket.bind(("0.0.0.0",8833))
         self.room_socket.listen()
         print("room socket is ready!")
-        self.roomsNames = []
+        # self.roomsNames = []
         # self.roomsSockets = []
         self.rooms = []
+        self.room_ids = []
         self.room_num = 0
-        self.backend = backend.Backend()
+        self.backend = backend.Backend(self)
 
 
 
@@ -85,7 +86,8 @@ class Rooms():
                 
 
     def createRoom(self,client_request,client_room,find_N):
-        room_id = self.backend.generate_random_room_id()#######################
+        room_id = self.backend.generate_random_room_id(self.room_ids)
+        self.room_ids.append(room_id)
         find_R = client_request.find("R")
         host_name = client_request[find_N + 1:find_R]
         room_name = client_request[find_R + 1:]

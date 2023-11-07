@@ -49,10 +49,12 @@ class Clients():
     
     def create_room(self,player_name,room_name):
         self.my_socket_room.send("create room".encode() + "N".encode() +  str(player_name).encode() + "R".encode() + str(room_name).encode())
-        rooms_answer = self.my_socket_room.recv(1024).decode()
+       
+    def call_host_start_game(self,rooms_answer):
         if rooms_answer[:28] == "room was created succesfully":
             find_I = rooms_answer.find("I")
             room_id = rooms_answer[find_I+1:]
+            print("sucssessssss")
             self.gamegraphics.host_start_game_window(room_id)
             
             
@@ -126,7 +128,8 @@ class Clients():
                 self.send_player_joined(server_sent)
             elif server_sent[:32] == "failed to join not found room id":
                 self.send_player_didnt_joine(server_sent)
-                
+            elif server_sent[:28] == "room was created succesfully":
+                self.call_host_start_game(server_sent)
                 
 
            
