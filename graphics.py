@@ -137,7 +137,7 @@ class GameGraphics:
         self.root.title("Trivia")
         room_name_label = tk.Label(text=f"Room name: {self.room_name}").pack()
         room_id_label = tk.Label(text=f"Room ID: {id}\nSend this ID to your friends that want to play with you.\nVerify that everyone joined the room before starting the game.").pack()
-        start_game_button = tk.Button(text="Start Game", command=self.client.start_game(id)).pack()
+        start_game_button = tk.Button(text="Start Game",command= partial(self.client.start_game, id)).pack()
     
     def waiting_for_host_window(self, room_name, host_name):#this window is called by client after user puts in the room id
         self.clear_screen()
