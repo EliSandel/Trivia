@@ -9,7 +9,8 @@ class Server():
     def __init__(self,array_of_sockets,array_of_names):
         self.array_of_names = array_of_names
         self.array_of_sockets = array_of_sockets
-        self.backend = backend.Backend(self,array_of_names)
+        self.backend = backend.Backend(self)
+        self.backend.get_list_of_names(array_of_names)
         server_socket1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.question_and_ans = self.backend.next_question()
         counter = 1

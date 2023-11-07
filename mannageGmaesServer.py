@@ -13,6 +13,7 @@ class Rooms():
         # self.roomsSockets = []
         self.rooms = []
         self.room_num = 0
+        self.backend = backend.Backend()
 
 
 
@@ -70,31 +71,32 @@ class Rooms():
         check = False
         for index in self.rooms:
             if index['id'] == room_id:
-                self.rooms[index['player_names'].append(player_name)]
-                self.rooms[index['sockets'].append(client_room)]
-                room_name = self.rooms[index['room_name']]
-                client_room.send("joined succesfully".encode() + "R".encode() + room_name.encode())
+                index['player_names'].append(player_name)
+                index['sockets'].append(client_room)
+                room_name = index['room_name']
+                host_name = index['host_name']
+                client_room.send("joined succesfully".encode() + "R".encode() + room_name.encode() + "H".encode() + host_name.encode())
                 check = True
                 print("joined room")
                 break
         if check == False:
-              client_room.send("failed to join not found room id".encode())
+              client_room.send("failed to join not found room id".encode() + "I".encode() + room_id.encode())
               print("rejected to join")
                 
 
     def createRoom(self,client_request,client_room,find_N):
-        self.backend = backend.Backend(self,fdsgrthyjuhkgfds)####################
-        room_id = backend.ask_for_room_id()#######################
+        room_id = self.backend.generate_random_room_id()#######################
         find_R = client_request.find("R")
-        username = client_request[find_N + 1:find_R]
+        host_name = client_request[find_N + 1:find_R]
         room_name = client_request[find_R + 1:]
         # self.roomsNames.append([username])
         # self.roomsSockets.append([client_room])
         self.rooms.append(
             {
               "id": room_id,
+              "host_name":host_name,
               "room_name": room_name,
-              "player_names": [username],
+              "player_names": [],
               "sockets" :[client_room]
             }
         )
