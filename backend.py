@@ -1,9 +1,10 @@
 import question_data
+import random
 
 class Backend():
-    def __init__(self, server, player_names):
+    def __init__(self, server):
         self.server = server
-        self.player_names = player_names
+        self.player_names = ""
         self.turn_counter = 0
         self.scores = []  
         self.initiate_score_list()
@@ -38,4 +39,14 @@ class Backend():
         print(self.player_names)
         for player in self.player_names:
             self.scores.append(0)
+    
+    def generate_random_room_id(self, array):
+        while True:
+            new_id = random.randint(10000, 99999)
+            if new_id not in array:
+                return new_id
+            
+    def get_list_of_names(self, names):
+        self.player_names = names
+            
         

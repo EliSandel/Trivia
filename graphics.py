@@ -1,17 +1,21 @@
 import tkinter as tk
 from functools import partial 
-import test
 import ast
 import threading
+import random
+from tkinter import messagebox
 
 class GameGraphics:
     def __init__(self, root, client):
         self.root = root
         self.all_scores = []
         self.client = client
-        self.gui_setup()
+        self.my_name = ""
+        self.room_name = ""
+        self.landing_page_gui_setup()
         
-    def gui_setup(self):
+    def main_game_gui_setup(self):
+        self.clear_screen()
         self.root.title("Trivia")
         self.root.config(padx=50, pady=50, bg="white")
         
@@ -75,5 +79,79 @@ class GameGraphics:
                 winner_label.pack()
         
         root.protocol("WM_DELETE_WINDOW", root.quit) #close the program when the window is closed
+    
+    #all this is for the windows before the actual game
+    def landing_page_gui_setup(self):# gui for landing page
+        self.root.title("Welcome")
+        self.root.geometry('300x300')
         
+        self.name_label = tk.Label(text="Enter your name:").pack()
+        self.name_entry = tk.Entry()
+        self.name_entry.pack()
+        
+        self.host_button = tk.Button(text="Host game", command=self.host_game).pack()
+        self.join_button = tk.Button(text="Join game", command=self.join_game).pack()
+        
+    def host_game(self):# called when user clicks host. saves users name, calls next window
+        self.my_name = self.name_entry.get()
+        if self.my_name:
+            self.clear_screen()
+            self.create_room_window() #call the next window
+            
+    def join_game(self):# when user clicks join first time. saves users name, calls next window
+        self.my_name = self.name_entry.get()
+        if self.my_name:
+            self.clear_screen()
+            self.join_room_window()
+            
+    def create_room_window(self):#called automatically after user clicks host. this is the window with the entry for room name
+        self.clear_screen()
+        room_name_label = tk.Label(text="Enter room name").pack()
+        self.room_name_entry = tk.Entry()
+        self.room_name_entry.pack()
+        room_name_button = tk.Button(text="Create", command=self.send_room_name).pack()
+    
+    def send_room_name(self):# called when host enters room name and clicks create room.
+        if self.room_name_entry.get():
+            self.room_name = self.room_name_entry.get()
+            self.clear_screen()
+            #call function in client and pass room name
+            self.client.create_room(self.my_name, self.room_name)
+            #client should call host_start_game_window and pass room id. this is temporary
+            
+    def join_room_window(self):#is called automatically when user click join first time
+        self.clear_screen()
+        enter_id_label = tk.Label(text="Enter the ID of the room you want to join.\nYou must get the room ID from the host.").pack()
+        self.enter_id_entry = tk.Entry()
+        self.enter_id_entry.pack()
+        join_room_button = tk.Button(text="Join room", command=self.join_room).pack()
+        
+    def join_room(self):#called when joiner clicks join room second time
+        id = self.enter_id_entry.get()
+        if id:
+            self.client.join_room(self.my_name, id)
+        
+        
+    def host_start_game_window(self, id):#this window is called by client. this is the window that the host can start the game from
+        self.clear_screen()
+        self.root.title("Trivia")
+        room_name_label = tk.Label(text=f"Room name: {self.room_name}").pack()
+        room_id_label = tk.Label(text=f"Room ID: {id}\nSend this ID to your friends that want to play with you.\nVerify that everyone joined the room before starting the game.").pack()
+        start_game_button = tk.Button(text="Start Game", command=self.client.start_game(id)).pack()
+    
+    def waiting_for_host_window(self, room_name, host_name):#this window is called by client after user puts in the room id
+        self.clear_screen()
+        success_message_label = tk.Label(text=f"You have successfully joined {room_name}.").pack()
+        waiting_message_label = tk.Label(text=f"Waiting for {host_name} to start the game.").pack()
+        
+    def room_not_found(self, wrong_room_id):
+        messagebox.showerror(title="Error", message=f"Room ID that you entered {wrong_room_id} does not exist.\nPlease try again.")
+    
+    def clear_screen(self):# removes all widgets from screen
+        for widget in self.root.winfo_children():
+            widget.destroy()
+    
+    
+        
+
 

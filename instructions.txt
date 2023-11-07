@@ -42,3 +42,14 @@ the clients get the information and send in to a func on the gui class
 the clients update the server that he can send the next questions
 16)server:
 the server calls to a func on the back class that makes level(1)
+
+
+
+Eli
+backend function in back that recieves array of ids, creates a new id and returns
+when host clicks create room i call function in client create_room(player_name, room_name)
+when user clicks join room call join_room(player_name, room_id)
+
+if host after creating room client call my function called host_start_game_window(room_id)
+
+create two function join_room(room_name),  room_not_found()
