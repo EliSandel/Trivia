@@ -16,7 +16,8 @@ class GameGraphics:
         self.room_name = ""
         self.landing_page_gui_setup()
         
-    def main_game_gui_setup(self):
+    def main_game_gui_setup(self, array_of_names):
+        self.all_names = eval(array_of_names)
         self.clear_screen()
         self.root.title("Trivia")
         self.root.config(padx=50, pady=50, bg="white")
@@ -59,28 +60,35 @@ class GameGraphics:
         self.client.getAnswer(player_answer)
     
     def recieve_players_score(self,my_score, all_scores): #str myscore, str list of all scores
+        self.all_scores = eval(all_scores)
         self.waiting_label.grid_forget()
         self.score_label.config(text=f"Youre score: {my_score}")
+        #call the window for showing the scoreedborad and then scoreboard should call nextquestion
         self.client.getNextQuestion()
         
     def start_thread(self, answer): #when clicking the button i want to call the button func from within a thread so it wont crash
         threading.Thread(target= self.send_answer, args=(answer)).start()
         
               
-    def game_over(self, winners):
-        self.root.destroy()
-        root = tk.Tk()
-        if len(winners) == 1:
-            winner_label = tk.Label(text=f"Player {winners[0]} won the game!")
-            winner_label.pack()
-        else:
-            title_label = tk.Label(text=f"The winners are")
-            title_label.pack()
-            for winner in winners:
-                winner_label = tk.Label(text=f"Player {winner}!")
-                winner_label.pack()
+    def game_over(self, all_scores, all_indexes_of_high_score):#tell yehuda to add all_indexes
+        self.all_scores = eval(all_scores)
+        all_indexes_of_high_score = eval(all_indexes_of_high_score)
+        self.clear_screen()
         
-        root.protocol("WM_DELETE_WINDOW", root.quit) #close the program when the window is closed
+        if len(all_indexes_of_high_score) == 1:# to check if there are multiple winners or just one
+            winner_message_label = tk.Label(text="The winner of the Trivia game is...").pack()
+        else:
+            winner_message_label = tk.Label(text=f"The {len(all_indexes_of_high_score)} winners of the Trivia game are...").pack()
+        tk.Frame(height=20).pack#create empty space between the message
+        
+        #to find the winners
+        for index in all_indexes_of_high_score:
+            winner_name_score_label = tk.Label(text=f"{self.all_names[index]}: {self.all_scores[index]}").pack()
+        
+        #to print the rest of the players besides the winners and their scores
+        for index,name in enumerate(self.all_names):
+            if not index in all_indexes_of_high_score:
+                name_score_label = tk.Label(text=f"{name}: {self.all_scores[index]}").pack()
     
     #all this is for the windows before the actual game
     def landing_page_gui_setup(self):# gui for landing page

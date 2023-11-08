@@ -31,7 +31,9 @@ class Backend():
 
     
     def game_over(self):#has to call function in server and pass in self.scores
-        self.server.game_over(self.scores)
+        highest_score = max(self.scores)
+        all_indexes_with_highest_score = [index for index,score in enumerate(self.scores) if score==highest_score]
+        self.server.game_over(self.scores, self.scores, all_indexes_with_highest_score)
         
     def initiate_score_list(self):
         print(self.player_names)
