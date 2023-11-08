@@ -133,7 +133,7 @@ class GameGraphics:
             if not self.contains_non_digits(id):
                 self.client.join_room(self.my_name, id)
     
-    def contains_non_digits(id):
+    def contains_non_digits(self, id):
         for char in id:
             if not char.isdigit():
                 return True
