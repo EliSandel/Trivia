@@ -1,3 +1,4 @@
+import array
 import server
 import socket
 import threading
@@ -72,7 +73,7 @@ class Rooms():
                 for room in self.rooms:
                     if room['id'] == int(room_id):
                         for socket in room['sockets']:
-                            socket.send("start game".encode())
+                            socket.send("start game".encode() + str(the_list_of_names).encode())
                             print("sent!!!!")
                 
                 serverGame = server.Server(the_list_of_sockets,the_list_of_names)
