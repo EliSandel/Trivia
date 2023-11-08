@@ -7,7 +7,6 @@ class Backend():
         self.player_names = ""
         self.turn_counter = 0
         self.scores = []  
-        self.initiate_score_list()
         self.trivia_api = question_data.TriviaApi()
         self.data = self.trivia_api.get_trivia_questions()
         
@@ -17,8 +16,8 @@ class Backend():
                 self.correct_answer(player_index)
         self.turn_counter += 1
 
-    def correct_answer(self, player):
-        self.scores[player] += 1
+    def correct_answer(self, player_index):
+        self.scores[player_index] += 1
 
     def next_question(self):
         question = self.data[self.turn_counter]
@@ -48,5 +47,6 @@ class Backend():
             
     def get_list_of_names(self, names):
         self.player_names = names
-            
+        self.initiate_score_list()
+
         
