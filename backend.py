@@ -1,12 +1,12 @@
 import question_data
+import random
 
 class Backend():
-    def __init__(self, server, player_names):
+    def __init__(self, server):
         self.server = server
-        self.player_names = player_names
+        self.player_names = ""
         self.turn_counter = 0
         self.scores = []  
-        self.initiate_score_list()
         self.trivia_api = question_data.TriviaApi()
         self.data = self.trivia_api.get_trivia_questions()
         
@@ -16,8 +16,8 @@ class Backend():
                 self.correct_answer(player_index)
         self.turn_counter += 1
 
-    def correct_answer(self, player):
-        self.scores[player] += 1
+    def correct_answer(self, player_index):
+        self.scores[player_index] += 1
 
     def next_question(self):
         question = self.data[self.turn_counter]
@@ -35,6 +35,18 @@ class Backend():
         self.server.game_over(winners)
         
     def initiate_score_list(self):
+        print(self.player_names)
         for player in self.player_names:
             self.scores.append(0)
+    
+    def generate_random_room_id(self, array):
+        while True:
+            new_id = random.randint(10000, 99999)
+            if new_id not in array:
+                return new_id
+            
+    def get_list_of_names(self, names):
+        self.player_names = names
+        self.initiate_score_list()
+
         

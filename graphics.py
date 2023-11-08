@@ -1,3 +1,4 @@
+import re
 import tkinter as tk
 from functools import partial 
 import ast
@@ -129,8 +130,14 @@ class GameGraphics:
     def join_room(self):#called when joiner clicks join room second time
         id = self.enter_id_entry.get()
         if id:
-            self.client.join_room(self.my_name, id)
-        
+            if not self.contains_non_digits(id):
+                self.client.join_room(self.my_name, id)
+    
+    def contains_non_digits(id):
+        for char in id:
+            if not char.isdigit():
+                return True
+        return False
         
     def host_start_game_window(self, id):#this window is called by client. this is the window that the host can start the game from
         self.clear_screen()
