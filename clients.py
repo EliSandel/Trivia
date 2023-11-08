@@ -121,14 +121,25 @@ class Clients():
         room_id = server_sent[find_I+1:]
         self.gamegraphics.room_not_found(room_id)
         
+        
+    def call_main_gui_setup(self,server_sent):
+        server_sent = self.reciveTheFullServer_sent(10,server_sent)
+        threading.Thread(target=self.gamegraphics.main_game_gui_setup(),args=(server_sent,)).start()
+        
+    def game_over(self,server_sent):
+        server_sent = self.reciveTheFullServer_sent(9,server_sent)
+        find_star = server_sent.find("*")
+        scores_array = server_sent[:find_star]
+        winner_indexes_array = server_sent[find_star + 1:]
+        self.gamegraphics.game_over(scores_array,winner_indexes_array)
+        
     def main(self):
         while True:
             print("waiting for recive")
             server_sent = self.my_socket_room.recv(1024).decode()
             print(server_sent)
             if server_sent == "start game":
-                print("strart game")
-                threading.Thread(target=self.gamegraphics.main_game_gui_setup()).start()
+                self.call_host_start_game(server_sent)
             elif server_sent[:8] == "question":
                 print("send question")
                 self.gettingQuestions(server_sent)
@@ -140,6 +151,9 @@ class Clients():
                 self.send_player_didnt_joine(server_sent)
             elif server_sent[:28] == "room was created succesfully":
                 self.call_host_start_game(server_sent)
+            elif server_sent[:9] == "game over":
+                self.game_over(server_sent)
+                
             
                 
 

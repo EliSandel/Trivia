@@ -52,7 +52,13 @@ class Server():
             
                  
             
-            
+    def gameOver(self,scores_array,winner_indexes_array):
+        for socket in self.array_of_sockets:
+            socket.send("game over".encode() + str(scores_array).encode() + "*" + str(winner_indexes_array).encode())
+        
+    
+    
+    
     def reciveTheFullServer_sent(self,x,server_sent):
         server_sent = server_sent[x:]
         return server_sent
