@@ -7,6 +7,7 @@ import backend
 class Server():
     
     def __init__(self,array_of_sockets,array_of_names):
+        print("start")
         self.array_of_names = array_of_names
         self.array_of_sockets = array_of_sockets
         self.backend = backend.Backend(self)
@@ -19,6 +20,7 @@ class Server():
                 # client_room.send("connected to server".encode())
                 print("client " + str(counter) + " connected")
                 counter += 1
+        print("sentttt")
         self.sendQuestion()
 
 
@@ -32,7 +34,7 @@ class Server():
                 checks.append(client.recv(1024).decode())
             for x in checks:
                 check = x
-                                
+                print(check)          
                 if check[:15] != "selected answer":  
                     flag = 1
             if flag == 0:
@@ -70,15 +72,16 @@ class Server():
             
             
     def waitForAnswers(self,array_of_answers):
-              counter = 0
-              for answer in array_of_answers:
-                array_of_answers[int(counter)] = self.reciveTheFullServer_sent(15,answer)
-                counter += 1
-              self.backend.check_answer(array_of_answers)    
-              self.infoForClients()
+        counter = 0
+        for answer in array_of_answers:
+            array_of_answers[int(counter)] = self.reciveTheFullServer_sent(15,answer)
+            counter += 1
+        self.backend.check_answer(array_of_answers)    
+        self.infoForClients()
                             
     def infoForClients(self):
         players_score = self.backend.get_score()
+        print(players_score)
         counter = 0
         for x in players_score:
             my_score = players_score[counter]
