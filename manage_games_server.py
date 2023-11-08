@@ -106,7 +106,7 @@ class Rooms():
                 check = True
                 print("joined room")
         if check == False:
-              client_room.send("failed to join not found room id".encode() + "I".encode() + str(room_id).encode())
+              client_room.send("failed to join not found room id".encode() + "I".encode() + str(2).encode())
               print("rejected to join")
                 
 
