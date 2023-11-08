@@ -124,7 +124,8 @@ class Clients():
         
     def call_main_gui_setup(self,server_sent):
         server_sent = self.reciveTheFullServer_sent(10,server_sent)
-        threading.Thread(target=self.gamegraphics.main_game_gui_setup(),args=(server_sent,)).start()
+        print(server_sent)
+        threading.Thread(target=self.gamegraphics.main_game_gui_setup,args=(server_sent,)).start()
         
     def game_over(self,server_sent):
         server_sent = self.reciveTheFullServer_sent(9,server_sent)
@@ -138,8 +139,8 @@ class Clients():
             print("waiting for recive")
             server_sent = self.my_socket_room.recv(1024).decode()
             print(server_sent)
-            if server_sent == "start game":
-                self.call_host_start_game(server_sent)
+            if server_sent[:10] == "start game":
+                self.call_main_gui_setup(server_sent)
             elif server_sent[:8] == "question":
                 print("send question")
                 self.gettingQuestions(server_sent)
