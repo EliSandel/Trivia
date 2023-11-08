@@ -144,7 +144,6 @@ class GameGraphics:
             if self.contains_non_digits(id):
                 # Show an error message to the user
                 messagebox.showerror(title="Error", message=f"Room ID that you entered {id} is invalid.\nRoom ID consists of digits only.\nPlease try again.")
-
             else:
                 # Attempt to join the room
                 self.client.join_room(self.my_name, id)
@@ -169,6 +168,7 @@ class GameGraphics:
         
     def room_not_found(self, wrong_room_id):
         messagebox.showerror(title="Error", message=f"Room ID that you entered {wrong_room_id} does not exist.\nPlease try again.")
+        self.join_room_window()
     
     def clear_screen(self):# removes all widgets from screen
         for widget in self.root.winfo_children():
