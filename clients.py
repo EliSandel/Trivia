@@ -49,7 +49,9 @@ class Clients():
     
     def create_room(self,player_name,room_name):
         self.my_socket_room.send("create room".encode() + "N".encode() +  str(player_name).encode() + "R".encode() + str(room_name).encode())
-       
+        print("create room sent")
+        
+        
     def call_host_start_game(self,rooms_answer):
         if rooms_answer[:28] == "room was created succesfully":
             find_I = rooms_answer.find("I")
@@ -59,7 +61,7 @@ class Clients():
             
             
     def start_game(self,room_id):
-        self.gamegraphics.main_game_gui_setup()
+        # self.gamegraphics.main_game_gui_setup()
         self.my_socket_room.send("start game".encode() + "R".encode() + str(room_id).encode())
         
 
@@ -78,6 +80,9 @@ class Clients():
         my_score = server_sent[:find_o]
         others_score = server_sent[find_o + 1:]
         print("got answer")
+        print(my_score)
+        print(others_score)
+        print("sadfghjkgfdsxazsdfghj")
         print(my_score)
         print(others_score)
         self.gamegraphics.recieve_players_score(my_score,others_score) 
@@ -107,7 +112,7 @@ class Clients():
         find_R = server_sent.find("R")
         find_H = server_sent.find("H")
         room_name = server_sent[find_R + 1:find_H]
-        host_name = server_sent[find_H:]
+        host_name = server_sent[find_H+1:]
         self.gamegraphics.waiting_for_host_window(room_name,host_name)
         
     def send_player_didnt_joine(self,server_sent):
@@ -120,7 +125,12 @@ class Clients():
         while True:
             print("waiting for recive")
             server_sent = self.my_socket_room.recv(1024).decode()
-            if server_sent[:8] == "question":
+            print(server_sent)
+            if server_sent == "start game":
+                print("strart game")
+                threading.Thread(target=self.gamegraphics.main_game_gui_setup()).start()
+            elif server_sent[:8] == "question":
+                print("send question")
                 self.gettingQuestions(server_sent)
             elif server_sent[:4] == "info":
                 self.sendInfoToGraphics(server_sent)
@@ -130,6 +140,7 @@ class Clients():
                 self.send_player_didnt_joine(server_sent)
             elif server_sent[:28] == "room was created succesfully":
                 self.call_host_start_game(server_sent)
+            
                 
 
            
