@@ -131,10 +131,13 @@ class GameGraphics:
             
     def join_room_window(self):#is called automatically when user click join first time
         self.clear_screen()
-        enter_id_label = tk.Label(text="Enter the ID of the room you want to join.\nYou must get the room ID from the host.").pack()
+        enter_id_label = tk.Label(text="Enter the ID of the room you want to join.\nYou must get the room ID from the host.")
+        enter_id_label.pack()
         self.enter_id_entry = tk.Entry()
         self.enter_id_entry.pack()
-        join_room_button = tk.Button(text="Join room", command=self.join_room).pack()
+        join_room_button = tk.Button(text="Join room", command=self.join_room)
+        join_room_button.pack()
+        self.join_room_button = join_room_button
         
     def join_room(self):#called when joiner clicks join room second time
         id = self.enter_id_entry.get()
@@ -167,8 +170,9 @@ class GameGraphics:
         waiting_message_label = tk.Label(text=f"Waiting for {host_name} to start the game.").pack()
         
     def room_not_found(self, wrong_room_id):
-        messagebox.showerror(title="Error", message=f"Room ID that you entered {wrong_room_id} does not exist.\nPlease try again.")
+        messagebox.showinfo(title="Error", message=f"Room ID that you entered {wrong_room_id} does not exist.\nPlease try again.")
         self.join_room_window()
+        self.join_room_button.config(state=tk.NORMAL)
     
     def clear_screen(self):# removes all widgets from screen
         for widget in self.root.winfo_children():
