@@ -24,15 +24,14 @@ class Backend():
         return question
 
     def get_score(self): #return the array
-        # if self.turn_counter == len(self.data) + 1:#when i run the test try without +1
-        #     self.game_over()
-        # else:
-        return self.scores
+        if self.turn_counter == len(self.data):#when i run the test try without +1
+            self.game_over()
+        else:
+            return self.scores
+
     
-    def game_over(self):
-        highest_score = max(self.scores) 
-        winners = [player for player, scores in enumerate(self.scores) if scores == highest_score]
-        self.server.game_over(winners)
+    def game_over(self):#has to call function in server and pass in self.scores
+        self.server.game_over(self.scores)
         
     def initiate_score_list(self):
         print(self.player_names)

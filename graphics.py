@@ -10,6 +10,7 @@ class GameGraphics:
     def __init__(self, root, client):
         self.root = root
         self.all_scores = []
+        self.all_names = []
         self.client = client
         self.my_name = ""
         self.room_name = ""
@@ -130,7 +131,14 @@ class GameGraphics:
     def join_room(self):#called when joiner clicks join room second time
         id = self.enter_id_entry.get()
         if id:
-            if not self.contains_non_digits(id):
+            # if not self.contains_non_digits(id):
+            #     self.client.join_room(self.my_name, id)
+            if self.contains_non_digits(id):
+                # Show an error message to the user
+                messagebox.showerror(title="Error", message=f"Room ID that you entered {id} is invalid.\nRoom ID consists of digits only.\nPlease try again.")
+
+            else:
+                # Attempt to join the room
                 self.client.join_room(self.my_name, id)
     
     def contains_non_digits(self, id):
