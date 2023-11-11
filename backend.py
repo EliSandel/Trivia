@@ -26,6 +26,7 @@ class Backend():
     def get_score(self): #return the array
         if self.turn_counter == len(self.data):#when i run the test try without +1
             self.game_over()
+            return []
         else:
             return self.scores
 
