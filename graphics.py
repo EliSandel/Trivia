@@ -86,6 +86,7 @@ class GameGraphics:
             winner_name_score_label = tk.Label(text=f"{self.all_names[index]}: {self.all_scores[index]}").pack()
         
         #to print the rest of the players besides the winners and their scores
+        all_players_label = tk.Label(text="All the rest of the players")
         for index,name in enumerate(self.all_names):
             if not index in all_indexes_of_high_score:
                 name_score_label = tk.Label(text=f"{name}: {self.all_scores[index]}").pack()
