@@ -1,4 +1,5 @@
 import array
+import time
 import server
 import socket
 import threading
@@ -22,7 +23,7 @@ class Rooms():
     def main(self):
         while True:
             (client_room,client_address) = self.room_socket.accept() 
-            self.thread = threading.Thread(target=self.recv_every_client_in_thread,args=(client_room,))
+            self.thread = threading.Thread(target=self.recv_every_client_in_thread,args=(client_room,))  #########################################################################################################################################
             self.thread.start()
             # print("wqaiting for rec")
             # client_request = client_room.recv(1024).decode()
@@ -37,29 +38,38 @@ class Rooms():
             #     self.joinRoom(client_request,client_room,find_N)
                 
     def recv_every_client_in_thread(self,client_room):
-            print("wqaiting for rec")
-            client_request = client_room.recv(1024).decode()
-            find_N = client_request.find("N")
-            his_mind = client_request[:find_N]
-            
-            if his_mind == "create room":
-               threading.Thread(target=self.checkForStartingGmae,args=(client_room,)).start()
-               self.createRoom(client_request,client_room,find_N)
+        flag = False
+        while True:  
+            print(flag)
+            if flag == True:
+                print("exittttttt")
+                break
+            else:
+                print("wqaiting for rec")
+                client_request = client_room.recv(1024).decode()
+                find_N = client_request.find("N")
+                his_mind = client_request[:find_N]
                 
-            elif his_mind == "join room":
-                self.joinRoom(client_request,client_room,find_N)
-                
+                if his_mind == "create room":
+                    self.thread = threading.Thread(target=self.checkForStartingGmae,args=(client_room,))
+                    self.thread.start()
+                    flag = self.createRoom(client_request,client_room,find_N)
+                    print(flag)
+                    
+                elif his_mind == "join room":
+                    flag = self.joinRoom(client_request,client_room,find_N)
+                    print(flag)
+                    
             
                 
                 
     def checkForStartingGmae(self,client_room):
-        while True:
-            client_request = client_room.recv(1024).decode()
-            if client_request[:10] == "start game":
-                find_R = client_request.find("R")
-                room_id = client_request[find_R +1:]
-                print("room " + str(room_id) + " have been start game!")
-                self.startingGame(client_request)  
+                client_request = client_room.recv(1024).decode()
+                if client_request[:10] == "start game":
+                    find_R = client_request.find("R")
+                    room_id = client_request[find_R +1:]
+                    print("room " + str(room_id) + " have been start game!")
+                    self.startingGame(client_request)  
             
                  
                 
@@ -75,8 +85,8 @@ class Rooms():
                         for socket in room['sockets']:
                             socket.send("start game".encode() + str(the_list_of_names).encode())
                             print("sent!!!!")
-                
                 serverGame = server.Server(the_list_of_sockets,the_list_of_names)
+                
         # the_list_of_sockets = self.roomsSockets[int(number_of_room)]
         # the_list_of_names = self.roomsNames[int(number_of_room)]
         # for x in the_list_of_sockets:
@@ -105,9 +115,11 @@ class Rooms():
                 client_room.send("joined succesfully".encode() + "R".encode() + room_name.encode() + "H".encode() + host_name.encode())
                 check = True
                 print("joined room")
+                return True
         if check == False:
-              client_room.send("failed to join not found room id".encode() + "I".encode() + str(2).encode())
+              client_room.send("failed to join not found room id".encode() + "I".encode() + str(room_id).encode())
               print("rejected to join")
+              return False
                 
 
     def createRoom(self,client_request,client_room,find_N):
@@ -133,7 +145,7 @@ class Rooms():
         self.room_num += 1
         print("room created!")
         print("there are " +str(self.room_num)+ " rooms")
-        
+        return True
 
     
         
