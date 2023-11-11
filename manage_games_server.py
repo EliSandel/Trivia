@@ -70,7 +70,18 @@ class Rooms():
                     room_id = client_request[find_R +1:]
                     print("room " + str(room_id) + " have been start game!")
                     self.startingGame(client_request)  
-            
+    
+    
+    def delete_room(self,room_id):
+        for num_of_index,index in enumerate(self.rooms):
+            if index["id"] == int(room_id):
+                self.rooms.remove(num_of_index)
+                print("room deleted")
+        for num_of_index,index in enumerate(self.room_ids):
+            if int(index) == int(room_id):
+                self.room_ids.remove(num_of_index)
+                print("id is deleted")
+             
                  
                 
     def startingGame(self,client_request):
@@ -84,8 +95,7 @@ class Rooms():
                     if room['id'] == int(room_id):
                         for socket in room['sockets']:
                             socket.send("start game".encode() + str(the_list_of_names).encode())
-                            print("sent!!!!")
-                serverGame = server.Server(the_list_of_sockets,the_list_of_names)
+                serverGame = server.Server(the_list_of_sockets,the_list_of_names,room_id)
                 
         # the_list_of_sockets = self.roomsSockets[int(number_of_room)]
         # the_list_of_names = self.roomsNames[int(number_of_room)]

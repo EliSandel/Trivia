@@ -6,14 +6,16 @@ import manage_games_server
 
 class Server():
     
-    def __init__(self,array_of_sockets,array_of_names):
+    def __init__(self,array_of_sockets,array_of_names,room_id):
         print("start")
+        self.room_id = room_id
         self.array_of_names = array_of_names
         self.array_of_sockets = array_of_sockets
         self.backend = backend.Backend(self)
         self.backend.get_list_of_names(array_of_names)
         self.server_socket1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.question_and_ans = self.backend.next_question()
+        self.manage_games_server = manage_games_server.Rooms()#####################################
         self.game_over_flag = False
         counter = 1
         for x in self.array_of_sockets:
@@ -61,6 +63,7 @@ class Server():
             print("client closed")
             self.server_socket1.close()
             self.game_over_flag == True
+            self.manage_games_server.delete_room(self.room_id)
         
     
     
@@ -95,7 +98,7 @@ class Server():
                             
     def infoForClients(self):
         players_score = self.backend.get_score()
-        if players_score == []:
+        if players_score == []:###################################################
             pass
         else:
             print(players_score)
