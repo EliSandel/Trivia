@@ -2,7 +2,7 @@ import socket
 import question_data
 import select
 import backend
-
+import manage_games_server
 
 class Server():
     
@@ -12,8 +12,9 @@ class Server():
         self.array_of_sockets = array_of_sockets
         self.backend = backend.Backend(self)
         self.backend.get_list_of_names(array_of_names)
-        server_socket1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server_socket1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.question_and_ans = self.backend.next_question()
+        self.game_over_flag = False
         counter = 1
         for x in self.array_of_sockets:
                 # client_room = x
@@ -27,7 +28,8 @@ class Server():
     
         
     def main(self):
-        while True:
+        print(self.game_over_flag)
+        while self.game_over_flag == False:
             flag = 0
             checks = []
             for client in self.array_of_sockets:
@@ -54,7 +56,11 @@ class Server():
             
     def game_over(self,scores_array,winner_indexes_array):
         for socket in self.array_of_sockets:
-            socket.send("game over".encode() + str(scores_array).encode() + "*" + str(winner_indexes_array).encode())
+            socket.send("game over".encode() + str(scores_array).encode() + "*".encode() + str(winner_indexes_array).encode())
+            socket.close()
+            print("client closed")
+            self.server_socket1.close()
+            self.game_over_flag == True
         
     
     
@@ -84,14 +90,19 @@ class Server():
             counter += 1
         self.backend.check_answer(array_of_answers)    
         self.infoForClients()
+                      
+                      
                             
     def infoForClients(self):
         players_score = self.backend.get_score()
-        print(players_score)
-        counter = 0
-        for x in players_score:
-            my_score = players_score[counter]
-            self.array_of_sockets[counter].send("info".encode() + str(my_score).encode() + "o".encode() + str(players_score).encode())
-            counter += 1
-            print("answer sent to " + str(counter) +" clients")
+        if players_score == []:
+            pass
+        else:
+            print(players_score)
+            counter = 0
+            for x in players_score:
+                my_score = players_score[counter]
+                self.array_of_sockets[counter].send("info".encode() + str(my_score).encode() + "o".encode() + str(players_score).encode())
+                counter += 1
+                print("answer sent to " + str(counter) +" clients")
             
