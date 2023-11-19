@@ -15,7 +15,7 @@ class Server():
         self.backend.get_list_of_names(array_of_names)
         self.server_socket1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.question_and_ans = self.backend.next_question()
-        self.manage_games_server = manage_games_server.Rooms()#####################################
+        # self.manage_games_server = manage_games_server.Rooms()
         self.game_over_flag = False
         counter = 1
         for x in self.array_of_sockets:
@@ -30,7 +30,6 @@ class Server():
     
         
     def main(self):
-        print(self.game_over_flag)
         while self.game_over_flag == False:
             flag = 0
             checks = []
@@ -57,13 +56,13 @@ class Server():
                  
             
     def game_over(self,scores_array,winner_indexes_array):
+        self.game_over_flag == True
         for socket in self.array_of_sockets:
             socket.send("game over".encode() + str(scores_array).encode() + "*".encode() + str(winner_indexes_array).encode())
             socket.close()
             print("client closed")
             self.server_socket1.close()
-            self.game_over_flag == True
-            self.manage_games_server.delete_room(self.room_id)
+            # self.manage_games_server.delete_room(self.room_id)
         
     
     
@@ -98,7 +97,7 @@ class Server():
                             
     def infoForClients(self):
         players_score = self.backend.get_score()
-        if players_score == []:###################################################
+        if players_score == []:
             pass
         else:
             print(players_score)
